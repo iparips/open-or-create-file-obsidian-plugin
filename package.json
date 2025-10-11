@@ -36,7 +36,7 @@
 		"builtin-modules": "3.3.0",
 		"esbuild": "0.25.0",
 		"eslint": "^8.57.0",
-		"happy-dom": "^15.11.6",
+		"happy-dom": "^20.0.0",
 		"jsdom": "^26.1.0",
 		"obsidian-typings": "^3.9.5",
 		"prettier": "^3.5.3",
