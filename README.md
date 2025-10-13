@@ -1,8 +1,8 @@
-# Create or open file Obsidian plugin
+# Open or Create File Obsidian Plugin
 
-This plugin allows adding custom Obsidian commands that create or open files based on predefined patterns, making it easier to maintain daily notes, weekly plans, and other regularly used documents. It reduces cognitive load by automating the creation of frequently used files.
+This plugin allows adding custom Obsidian commands that create or open files based on predefined patterns, making it easier to maintain daily notes, weekly plans, and other regularly used documents. It reduces the cognitive load by automating the creation of frequently used files.
 
-Please note, I work on this during my spare time of which I have very little. If there are any issues feel free to raise a PR, but note it might take me some time to respond.
+Please note, I work on this during my spare time of which I have very little. If there are any issues, feel free to raise a PR, but note it might take me some time to respond.
 
 ## Features
 
