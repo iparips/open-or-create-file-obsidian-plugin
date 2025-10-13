@@ -57,7 +57,7 @@ export const SettingsComponent = ({ settings, updatePluginSettings }: SettingsPr
 	}, [localSettings])
 
 	return (
-		<div className="note-creation-commands-settings">
+		<div className="open-or-create-file-settings" data-plugin="open-or-create-file">
 			<ActionsHeader settings={localSettings} onSettingsImported={handleSettingsImported} onAddCommand={addCommand} />
 			<ValidationSummary validationResult={validationResult} />
 			{localSettings.commandConfigs.map((command: CommandConfig, index) => (

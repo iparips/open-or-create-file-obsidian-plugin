@@ -13,7 +13,7 @@ export const ValidationSummary: React.FC<ErrorSummaryProps> = ({ validationResul
 	const errorSummary = validationResult.getErrorSummary()
 
 	return (
-		<div className="error-summary">
+		<div className="error-summary" data-plugin="open-or-create-file">
 			<div className="error-summary-title">Please fill out the highlighted fields</div>
 			<ul className="error-summary-list">
 				{errorSummary.map((errorMessage, index) => (

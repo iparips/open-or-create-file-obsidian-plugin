@@ -45,7 +45,7 @@ export const CommandCard: React.FC<CommandCardProps> = ({
 	}
 
 	return (
-		<div className="command-container">
+		<div className="command-container" data-plugin="open-or-create-file">
 			<div className="settings-grid">
 				<SettingInput
 					name="Command name"

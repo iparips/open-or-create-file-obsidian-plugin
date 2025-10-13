@@ -74,7 +74,7 @@ describe('validateSettings', () => {
 			expect(result.errors).toHaveLength(1)
 			expect(result.errors[0]).toEqual({
 				field: 'templateFilePath',
-				fieldDisplayName: 'Template File',
+				fieldDisplayName: 'Template file',
 				message: 'File name should end with .md extension',
 				commandIndex: 0,
 			})
@@ -95,7 +95,7 @@ describe('validateSettings', () => {
 			expect(result.errors).toHaveLength(1)
 			expect(result.errors[0]).toEqual({
 				field: 'fileNamePattern',
-				fieldDisplayName: 'File Name',
+				fieldDisplayName: 'File name',
 				message: 'File name should end with .md extension',
 				commandIndex: 0,
 			})
@@ -117,7 +117,7 @@ describe('validateSettings', () => {
 				expect(result.errors).toHaveLength(1)
 				expect(result.errors[0]).toEqual({
 					field: 'timeShift',
-					fieldDisplayName: 'Time Shift',
+					fieldDisplayName: 'Time shift',
 					message: 'Time shift must be in format "+N unit" or "-N unit" (e.g., "+1 day", "-2 weeks", "+3 months")',
 					commandIndex: 0,
 				})
@@ -162,19 +162,19 @@ describe('validateSettings', () => {
 
 		expect(result.errors[0]).toEqual({
 			field: 'commandName',
-			fieldDisplayName: 'Command Name',
+			fieldDisplayName: 'Command name',
 			message: 'This field is mandatory',
 			commandIndex: 0,
 		})
 		expect(result.errors[1]).toEqual({
 			field: 'destinationFolderPattern',
-			fieldDisplayName: 'Destination Folder',
+			fieldDisplayName: 'Destination folder',
 			message: 'This field is mandatory',
 			commandIndex: 0,
 		})
 		expect(result.errors[2]).toEqual({
 			field: 'fileNamePattern',
-			fieldDisplayName: 'File Name',
+			fieldDisplayName: 'File name',
 			message: 'This field is mandatory',
 			commandIndex: 0,
 		})

@@ -14,31 +14,31 @@ const buildFieldValidations = (command: CommandConfig): FieldValidation[] => {
 	return [
 		{
 			field: 'commandName',
-			fieldDisplayName: 'Command Name',
+			fieldDisplayName: 'Command name',
 			value: command.commandName,
 			rules: [VALIDATIONS.required],
 		},
 		{
 			field: 'templateFilePath',
-			fieldDisplayName: 'Template File',
+			fieldDisplayName: 'Template file',
 			value: command.templateFilePath,
 			rules: [VALIDATIONS.endsWithMd],
 		},
 		{
 			field: 'destinationFolderPattern',
-			fieldDisplayName: 'Destination Folder',
+			fieldDisplayName: 'Destination folder',
 			value: command.destinationFolderPattern,
 			rules: [VALIDATIONS.required],
 		},
 		{
 			field: 'fileNamePattern',
-			fieldDisplayName: 'File Name',
+			fieldDisplayName: 'File name',
 			value: command.fileNamePattern,
 			rules: [VALIDATIONS.requiredAndEndsWithMd],
 		},
 		{
 			field: 'timeShift',
-			fieldDisplayName: 'Time Shift',
+			fieldDisplayName: 'Time shift',
 			value: command.timeShift,
 			rules: [VALIDATIONS.timeShift],
 		},

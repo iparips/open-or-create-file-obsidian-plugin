@@ -1,5 +1,8 @@
-/* Settings Tab Styles */
-.note-creation-commands-settings {
+[data-plugin='open-or-create-file'] {
+	/* Settings Tab Styles */
+}
+
+[data-plugin='open-or-create-file'] .open-or-create-file-settings {
 	/* Main container styles */
 	padding: 0.5rem;
 	max-width: 100%;
@@ -7,14 +10,14 @@
 }
 
 /* Mobile-first button container */
-.button-container {
+[data-plugin='open-or-create-file'] .button-container {
 	display: flex;
 	flex-direction: column;
 	gap: 0.75em;
 	margin-bottom: 1.5em;
 }
 
-.button-container button {
+[data-plugin='open-or-create-file'] .button-container button {
 	background: var(--interactive-accent);
 	color: var(--text-on-accent);
 	border: none;
@@ -27,11 +30,11 @@
 	box-sizing: border-box;
 }
 
-.button-container button:hover {
+[data-plugin='open-or-create-file'] .button-container button:hover {
 	background: var(--interactive-accent-hover);
 }
 
-button.mod-warning {
+[data-plugin='open-or-create-file'] button.mod-warning {
 	background: var(--text-error);
 	color: var(--text-on-accent);
 	border: none;
@@ -44,11 +47,11 @@ button.mod-warning {
 	min-width: 80px;
 }
 
-button.mod-warning:hover {
+[data-plugin='open-or-create-file'] button.mod-warning:hover {
 	opacity: 0.8;
 }
 
-.command-container {
+[data-plugin='open-or-create-file'] .command-container {
 	margin-bottom: 1em;
 	padding: 1em;
 	border: 1px solid var(--background-modifier-border);
@@ -56,7 +59,7 @@ button.mod-warning:hover {
 	box-sizing: border-box;
 }
 
-.command-footer {
+[data-plugin='open-or-create-file'] .command-footer {
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
@@ -64,13 +67,13 @@ button.mod-warning:hover {
 }
 
 /* Mobile-first settings grid */
-.settings-grid {
+[data-plugin='open-or-create-file'] .settings-grid {
 	display: flex;
 	flex-direction: column;
 	gap: 1em;
 }
 
-.settings-grid .setting-item {
+[data-plugin='open-or-create-file'] .settings-grid .setting-item {
 	padding: 0.5em 0;
 	display: flex;
 	flex-direction: column;
@@ -78,25 +81,25 @@ button.mod-warning:hover {
 	align-items: stretch;
 }
 
-.setting-item-info {
+[data-plugin='open-or-create-file'] .setting-item-info {
 	display: flex;
 	flex-direction: column;
 	gap: 0.25em;
 }
 
-.setting-item-name {
+[data-plugin='open-or-create-file'] .setting-item-name {
 	font-weight: 500;
 	color: var(--text-normal);
 	font-size: 1em;
 }
 
-.setting-item-description {
+[data-plugin='open-or-create-file'] .setting-item-description {
 	font-size: 0.875em;
 	color: var(--text-muted);
 	line-height: 1.4;
 }
 
-.settings-grid .setting-item input {
+[data-plugin='open-or-create-file'] .settings-grid .setting-item input {
 	width: 100%;
 	padding: 0.75em;
 	border: 1px solid var(--background-modifier-border);
@@ -112,13 +115,13 @@ button.mod-warning:hover {
 	appearance: none;
 }
 
-.settings-grid .setting-item input:focus {
+[data-plugin='open-or-create-file'] .settings-grid .setting-item input:focus {
 	outline: none;
 	border-color: var(--interactive-accent);
 }
 
 /* Error States */
-.error-message {
+[data-plugin='open-or-create-file'] .error-message {
 	color: var(--interactive-accent-hover);
 	font-size: 0.75em;
 	margin-bottom: 0.25em;
@@ -126,21 +129,21 @@ button.mod-warning:hover {
 	line-height: 1.3;
 }
 
-.settings-grid .setting-item input.error {
+[data-plugin='open-or-create-file'] .settings-grid .setting-item input.error {
 	border-color: var(--interactive-accent) !important;
 	border-width: 2px !important;
 	box-shadow: 0 0 0 1px var(--interactive-accent) !important;
 	background-color: var(--interactive-accent-hover-alt) !important;
 }
 
-.settings-grid .setting-item input.error:focus {
+[data-plugin='open-or-create-file'] .settings-grid .setting-item input.error:focus {
 	outline: none !important;
 	border-color: var(--interactive-accent) !important;
 	box-shadow: 0 0 0 2px var(--interactive-accent-hover) !important;
 }
 
 /* Error summary styles */
-.error-summary {
+[data-plugin='open-or-create-file'] .error-summary {
 	background-color: var(--interactive-accent-hover-alt);
 	border: 1px solid var(--interactive-accent);
 	border-radius: var(--radius-s);
@@ -148,20 +151,20 @@ button.mod-warning:hover {
 	margin-bottom: 1.5em;
 }
 
-.error-summary-title {
+[data-plugin='open-or-create-file'] .error-summary-title {
 	color: var(--interactive-accent-hover);
 	font-weight: 600;
 	margin-bottom: 0.5em;
 	font-size: 1em;
 }
 
-.error-summary-list {
+[data-plugin='open-or-create-file'] .error-summary-list {
 	list-style: none;
 	padding: 0;
 	margin: 0;
 }
 
-.error-summary-item {
+[data-plugin='open-or-create-file'] .error-summary-item {
 	color: var(--interactive-accent-hover);
 	font-size: 0.875em;
 	margin-bottom: 0.25em;
@@ -170,7 +173,7 @@ button.mod-warning:hover {
 
 /* Mobile-specific styles (up to 767px) */
 @media (max-width: 767px) {
-	.settings-grid .setting-item input {
+	[data-plugin='open-or-create-file'] .settings-grid .setting-item input {
 		/* Ensure consistent full width on all mobile devices */
 		width: 100% !important;
 		max-width: 100% !important;
@@ -184,35 +187,35 @@ button.mod-warning:hover {
 		border-radius: var(--radius-s);
 	}
 
-	.setting-item-info {
+	[data-plugin='open-or-create-file'] .setting-item-info {
 		margin-bottom: 0.5em;
 	}
 
-	.settings-grid .setting-item {
+	[data-plugin='open-or-create-file'] .settings-grid .setting-item {
 		gap: 0.75em;
 	}
 }
 
 /* Tablet breakpoint (768px and up) */
 @media (min-width: 768px) {
-	.note-creation-commands-settings {
+	[data-plugin='open-or-create-file'] .open-or-create-file-settings {
 		padding: 1rem;
 	}
 
-	.button-container {
+	[data-plugin='open-or-create-file'] .button-container {
 		flex-direction: row;
 		gap: 1em;
 		justify-content: flex-start;
 		flex-wrap: wrap;
 	}
 
-	.button-container button {
+	[data-plugin='open-or-create-file'] .button-container button {
 		width: auto;
 		min-width: 120px;
 		flex: 0 1 auto;
 	}
 
-	.settings-grid .setting-item {
+	[data-plugin='open-or-create-file'] .settings-grid .setting-item {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		gap: 1em;
@@ -220,121 +223,121 @@ button.mod-warning:hover {
 		padding: 0.75em 0;
 	}
 
-	.setting-item-info {
+	[data-plugin='open-or-create-file'] .setting-item-info {
 		align-self: center;
 	}
 
-	.command-container {
+	[data-plugin='open-or-create-file'] .command-container {
 		padding: 1.5em;
 	}
 }
 
 /* Desktop breakpoint (1024px and up) */
 @media (min-width: 1024px) {
-	.note-creation-commands-settings {
+	[data-plugin='open-or-create-file'] .open-or-create-file-settings {
 		padding: 1.5rem;
 		max-width: 1200px;
 	}
 
-	.button-container {
+	[data-plugin='open-or-create-file'] .button-container {
 		gap: 1.5em;
 	}
 
-	.button-container button {
+	[data-plugin='open-or-create-file'] .button-container button {
 		min-width: 140px;
 		padding: 0.75em 1.5em;
 	}
 
-	.settings-grid .setting-item {
+	[data-plugin='open-or-create-file'] .settings-grid .setting-item {
 		grid-template-columns: 2fr 3fr;
 		gap: 2em;
 		padding: 1em 0;
 	}
 
-	.command-container {
+	[data-plugin='open-or-create-file'] .command-container {
 		padding: 2em;
 	}
 
-	.settings-grid {
+	[data-plugin='open-or-create-file'] .settings-grid {
 		gap: 0.5em;
 	}
 }
 
 /* Large desktop breakpoint (1440px and up) */
 @media (min-width: 1440px) {
-	.note-creation-commands-settings {
+	[data-plugin='open-or-create-file'] .open-or-create-file-settings {
 		padding: 2rem;
 	}
 
-	.settings-grid .setting-item {
+	[data-plugin='open-or-create-file'] .settings-grid .setting-item {
 		grid-template-columns: 1fr 2fr;
 		gap: 3em;
 	}
 }
 
-/* Utility classes for common patterns */
-.flex {
+/* Plugin-scoped utility classes */
+[data-plugin='open-or-create-file'] .flex {
 	display: flex;
 }
 
-.flex-col {
+[data-plugin='open-or-create-file'] .flex-col {
 	flex-direction: column;
 }
 
-.justify-between {
+[data-plugin='open-or-create-file'] .justify-between {
 	justify-content: space-between;
 }
 
-.items-center {
+[data-plugin='open-or-create-file'] .items-center {
 	align-items: center;
 }
 
-.gap-2 {
+[data-plugin='open-or-create-file'] .gap-2 {
 	gap: 0.5em;
 }
 
-.gap-4 {
+[data-plugin='open-or-create-file'] .gap-4 {
 	gap: 1em;
 }
 
-.mb-2 {
+[data-plugin='open-or-create-file'] .mb-2 {
 	margin-bottom: 0.5em;
 }
 
-.mb-4 {
+[data-plugin='open-or-create-file'] .mb-4 {
 	margin-bottom: 1em;
 }
 
-.p-1 {
+[data-plugin='open-or-create-file'] .p-1 {
 	padding: 0.25em;
 }
 
-.border {
+[data-plugin='open-or-create-file'] .border {
 	border: 1px solid var(--background-modifier-border);
 }
 
-.rounded {
+[data-plugin='open-or-create-file'] .rounded {
 	border-radius: var(--radius-s);
 }
 
-.w-full {
+[data-plugin='open-or-create-file'] .w-full {
 	width: 100%;
 }
 
 /* Accessibility improvements */
 @media (prefers-reduced-motion: reduce) {
-	* {
+	[data-plugin='open-or-create-file'] * {
 		transition: none !important;
 	}
 }
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
-	.command-container {
+	[data-plugin='open-or-create-file'] .command-container {
 		border-width: 2px;
 	}
 
-	.settings-grid .setting-item input {
+	[data-plugin='open-or-create-file'] .settings-grid .setting-item input {
 		border-width: 2px;
 	}
 }

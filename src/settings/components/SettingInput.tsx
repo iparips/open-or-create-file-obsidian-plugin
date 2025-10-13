@@ -20,7 +20,7 @@ export const SettingInput: React.FC<SettingInputProps> = ({
 	error,
 }) => {
 	return (
-		<div className="setting-item">
+		<div className="setting-item" data-plugin="open-or-create-file">
 			<div className="setting-item-info">
 				<div className="setting-item-name">{name}</div>
 				<div className="setting-item-description">{description}</div>
