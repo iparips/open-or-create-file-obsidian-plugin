@@ -4,7 +4,7 @@
 	"description": "Create custom Obsidian commands that open or create files using configurable patterns and templates.",
 	"main": "main.js",
 	"scripts": {
-		"build": "bun run build:no-tests",
+		"build": "bun run test && bun run build:no-tests",
 		"build:no-tests": "bun run lint && bun run format && bun build src/main.ts --outdir . --entry-naming \"[name].[ext]\" --external obsidian --format cjs --sourcemap",
 		"version:major": "bun run version-bump.mjs major",
 		"version:minor": "bun run version-bump.mjs minor",
