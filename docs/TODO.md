@@ -18,4 +18,5 @@
 - [x] Add Github actions based build
 - [x] Remove v from version tags
 - [x] Release
-- [ ] Add time shift that would support format like "Next Monday"
+- [x] Add time shift that would support format like "Next Monday"
+- [ ] Use last period's note as a template

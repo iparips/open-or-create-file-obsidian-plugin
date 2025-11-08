@@ -26,6 +26,7 @@ export interface CommandConfig {
 	destinationFolderPattern: string
 	fileNamePattern: string
 	timeShift?: string
+	usePreviousNoteAsTemplate?: boolean
 }
 
 export interface CreateOrOpenFilePluginSettings {

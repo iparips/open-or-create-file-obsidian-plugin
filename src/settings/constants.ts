@@ -8,6 +8,7 @@ export const DEFAULT_SETTINGS: CreateOrOpenFilePluginSettings = {
 			destinationFolderPattern: 'eg: 01 - Journal/Weekly/Week-{week}',
 			fileNamePattern: 'eg: shopping-list.md',
 			timeShift: '',
+			usePreviousNoteAsTemplate: false,
 		},
 	],
 }

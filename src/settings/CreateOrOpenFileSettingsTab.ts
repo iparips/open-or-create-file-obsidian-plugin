@@ -24,10 +24,13 @@ export class CreateOrOpenFileSettingsTab extends PluginSettingTab {
 		const { containerEl } = this
 		containerEl.empty()
 
+		// Get initial settings from plugin
+		const currentSettings = (this.plugin as CreateOrOpenFilePlugin).settings
+
 		this.root = createRoot(containerEl)
 		this.root.render(
 			React.createElement(SettingsComponent, {
-				settings: (this.plugin as CreateOrOpenFilePlugin).settings, // Get current settings from plugin
+				settings: currentSettings,
 				updatePluginSettings: this.updatePluginSettingsCallback,
 			}),
 		)

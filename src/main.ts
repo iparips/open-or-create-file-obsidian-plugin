@@ -18,7 +18,15 @@ export default class CreateOrOpenFilePlugin extends Plugin {
 
 	private async loadSettingsFromFile(): Promise<CreateOrOpenFilePluginSettings> {
 		const data: CreateOrOpenFilePluginSettings = await this.loadData()
-		return Object.assign({}, DEFAULT_SETTINGS, data)
+		const settings = Object.assign({}, DEFAULT_SETTINGS, data)
+
+		// Ensure all commands have the new optional fields
+		settings.commandConfigs = settings.commandConfigs.map((config) => ({
+			...config,
+			usePreviousNoteAsTemplate: config.usePreviousNoteAsTemplate ?? false,
+		}))
+
+		return settings
 	}
 
 	onunload() {

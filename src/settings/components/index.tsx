@@ -16,9 +16,13 @@ export const SettingsComponent = ({ settings, updatePluginSettings }: SettingsPr
 	const [localSettings, setLocalSettings] = useState<CreateOrOpenFilePluginSettings>(settings)
 	const [validationResult, setValidationResult] = useState<ValidationResult>(new ValidationResult([]))
 
-	const updateCommand = async (index: number, commandKey: keyof CommandConfig, newValue: string) => {
-		const newSettings = { ...localSettings }
-		newSettings.commandConfigs[index] = { ...newSettings.commandConfigs[index], [commandKey]: newValue }
+	const updateCommand = async (index: number, commandKey: keyof CommandConfig, newValue: string | boolean) => {
+		const newSettings = {
+			...localSettings,
+			commandConfigs: localSettings.commandConfigs.map((config, i) =>
+				i === index ? { ...config, [commandKey]: newValue } : config,
+			),
+		}
 		setLocalSettings(newSettings)
 		await updatePluginSettings(newSettings)
 	}
@@ -39,6 +43,7 @@ export const SettingsComponent = ({ settings, updatePluginSettings }: SettingsPr
 				destinationFolderPattern: '',
 				fileNamePattern: '',
 				timeShift: '',
+				usePreviousNoteAsTemplate: false,
 			},
 			...newSettings.commandConfigs,
 		]

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import type { CommandConfig, ValidationError } from '../../types'
 import { SettingInput } from './SettingInput'
+import { SettingToggle } from './SettingToggle'
 import { validateField, VALIDATIONS, type ValidationRule } from '../utils/validation/validateField'
 
 interface ValidationErrors {
@@ -14,7 +15,7 @@ interface ValidationErrors {
 interface CommandCardProps {
 	command: CommandConfig
 	index: number
-	onUpdate: (index: number, field: keyof CommandConfig, value: string) => void
+	onUpdate: (index: number, field: keyof CommandConfig, value: string | boolean) => void
 	onDelete: (index: number) => void
 	validationErrors?: ValidationError[]
 }
@@ -31,8 +32,9 @@ export const CommandCard: React.FC<CommandCardProps> = ({
 	// Merge prop validation errors with local validation errors for display
 	const propErrors: ValidationErrors = {}
 	propValidationErrors.forEach((error) => {
-		if (error.field in command) {
-			propErrors[error.field as keyof CommandConfig] = error.message
+		// Only add errors for fields that can have string validation errors
+		if (error.field in localValidationErrors) {
+			propErrors[error.field as keyof ValidationErrors] = error.message
 		}
 	})
 
@@ -85,6 +87,17 @@ export const CommandCard: React.FC<CommandCardProps> = ({
 					onChange={(value) => onUpdate(index, 'templateFilePath', value)}
 					onBlur={(value) => validate('templateFilePath', value, [VALIDATIONS.endsWithMd])}
 					error={displayErrors.templateFilePath}
+				/>
+
+				<SettingToggle
+					name="Use previous note as template"
+					description="When enabled, automatically search for previous period's notes and use as template"
+					value={command.usePreviousNoteAsTemplate ?? false}
+					onChange={(value) => {
+						console.log('CommandCard onChange called with:', value)
+						console.log('Current value:', command.usePreviousNoteAsTemplate)
+						onUpdate(index, 'usePreviousNoteAsTemplate', value)
+					}}
 				/>
 
 				<SettingInput
