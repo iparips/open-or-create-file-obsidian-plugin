@@ -13,7 +13,9 @@ export default class CreateOrOpenFilePlugin extends Plugin {
 		this.settings = await this.loadSettingsFromFile()
 		this.registerCommands(this.settings.commandConfigs)
 		// bind this so that "this" reference inside update updateSettings points to MyPlugin.
-		this.addSettingTab(new CreateOrOpenFileSettingsTab(this.app, this, this.updateSettings.bind(this)))
+		this.addSettingTab(
+			new CreateOrOpenFileSettingsTab(this.app, this, this.updateSettings.bind(this)),
+		)
 	}
 
 	private async loadSettingsFromFile(): Promise<CreateOrOpenFilePluginSettings> {

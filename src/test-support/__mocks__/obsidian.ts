@@ -1,5 +1,10 @@
 import { vi } from 'vitest'
-import type { App, TFile as ObsidianTFile, TFolder as ObsidianTFolder, Vault as ObsidianVault } from 'obsidian'
+import type {
+	App,
+	TFile as ObsidianTFile,
+	TFolder as ObsidianTFolder,
+	Vault as ObsidianVault,
+} from 'obsidian'
 
 export type TFile = ObsidianTFile
 export type TFolder = ObsidianTFolder
@@ -40,7 +45,9 @@ export const mockVault = (): Vault =>
 		getFolderByPath: vi.fn().mockImplementation((path: string) => null),
 		getAbstractFileByPath: vi.fn().mockImplementation((path: string) => null),
 		createFolder: vi.fn().mockImplementation((path: string) => Promise.resolve(mockTFolder(path))),
-		create: vi.fn().mockImplementation((path: string, data: string) => Promise.resolve(mockTFile(path))),
+		create: vi
+			.fn()
+			.mockImplementation((path: string, data: string) => Promise.resolve(mockTFile(path))),
 		read: vi.fn().mockImplementation((file: TFile) => Promise.resolve('')),
 	}) as unknown as Vault
 
@@ -48,7 +55,9 @@ export const mockApp = (vault = mockVault()): App =>
 	({
 		vault,
 		workspace: {
-			openLinkText: vi.fn().mockImplementation((linktext: string, sourcePath: string) => Promise.resolve()),
+			openLinkText: vi
+				.fn()
+				.mockImplementation((linktext: string, sourcePath: string) => Promise.resolve()),
 		},
 		metadataCache: {},
 		fileManager: {},

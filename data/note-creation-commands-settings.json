@@ -1,42 +1,42 @@
 {
-  "commandConfigs": [
-    {
-      "commandName": "Todo",
-      "templateFilePath": "",
-      "destinationFolderPattern": "01 - Journal/Weekly/Week-{week}",
-      "fileNamePattern": "todo.md",
-      "timeShift": "",
-      "usePreviousNoteAsTemplate": false
-    },
-    {
-      "commandName": "Next Week's Todo",
-      "templateFilePath": "",
-      "destinationFolderPattern": "01 - Journal/Weekly/Week-{week}",
-      "fileNamePattern": "todo.md",
-      "timeShift": "+1 week",
-      "usePreviousNoteAsTemplate": true
-    },
-    {
-      "commandName": "Tomorrow's daily note",
-      "destinationFolderPattern": "01 - Journal/Weekly/Week-{week}",
-      "fileNamePattern": "{month}-{day}-{dow}.md",
-      "timeShift": "+1 day",
-      "usePreviousNoteAsTemplate": false
-    },
-    {
-      "commandName": "Shopping list",
-      "templateFilePath": "00 - Meta/Templates/shopping-list-w-lewis-template.md",
-      "destinationFolderPattern": "01 - Journal/Weekly/Week-{week}",
-      "fileNamePattern": "shopping-list.md",
-      "usePreviousNoteAsTemplate": false
-    },
-    {
-      "commandName": "Next week's shopping list",
-      "templateFilePath": "00 - Meta/Templates/shopping-list-w-lewis-template.md",
-      "destinationFolderPattern": "01 - Journal/Weekly/Week-{week}",
-      "fileNamePattern": "shopping-list.md",
-      "timeShift": "+1 week",
-      "usePreviousNoteAsTemplate": false
-    }
-  ]
+	"commandConfigs": [
+		{
+			"commandName": "Todo",
+			"templateFilePath": "",
+			"destinationFolderPattern": "01 - Journal/Weekly/Week-{week}",
+			"fileNamePattern": "todo.md",
+			"timeShift": "",
+			"usePreviousNoteAsTemplate": false
+		},
+		{
+			"commandName": "Next Week's Todo",
+			"templateFilePath": "",
+			"destinationFolderPattern": "01 - Journal/Weekly/Week-{week}",
+			"fileNamePattern": "todo.md",
+			"timeShift": "+1 week",
+			"usePreviousNoteAsTemplate": true
+		},
+		{
+			"commandName": "Tomorrow's daily note",
+			"destinationFolderPattern": "01 - Journal/Weekly/Week-{week}",
+			"fileNamePattern": "{month}-{day}-{dow}.md",
+			"timeShift": "+1 day",
+			"usePreviousNoteAsTemplate": false
+		},
+		{
+			"commandName": "Shopping list",
+			"templateFilePath": "00 - Meta/Templates/shopping-list-w-lewis-template.md",
+			"destinationFolderPattern": "01 - Journal/Weekly/Week-{week}",
+			"fileNamePattern": "shopping-list.md",
+			"usePreviousNoteAsTemplate": false
+		},
+		{
+			"commandName": "Next week's shopping list",
+			"templateFilePath": "00 - Meta/Templates/shopping-list-w-lewis-template.md",
+			"destinationFolderPattern": "01 - Journal/Weekly/Week-{week}",
+			"fileNamePattern": "shopping-list.md",
+			"timeShift": "+1 week",
+			"usePreviousNoteAsTemplate": false
+		}
+	]
 }

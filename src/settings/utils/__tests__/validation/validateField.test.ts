@@ -12,12 +12,16 @@ describe('validateField', () => {
 
 	it('should return first failing rule error', () => {
 		// Empty string should fail required rule first
-		expect(validateField([VALIDATIONS.required, VALIDATIONS.endsWithMd], '')).toBe('This field is mandatory')
+		expect(validateField([VALIDATIONS.required, VALIDATIONS.endsWithMd], '')).toBe(
+			'This field is mandatory',
+		)
 	})
 
 	it('should return first failing rule error when multiple rules fail', () => {
 		// Required rule should be checked first, even though endsWithMd would also fail
-		expect(validateField([VALIDATIONS.required, VALIDATIONS.endsWithMd], '')).toBe('This field is mandatory')
+		expect(validateField([VALIDATIONS.required, VALIDATIONS.endsWithMd], '')).toBe(
+			'This field is mandatory',
+		)
 	})
 
 	it('should return second rule error when first passes', () => {
@@ -52,7 +56,9 @@ describe('validateField', () => {
 	it('should handle undefined values', () => {
 		expect(validateField([VALIDATIONS.required], undefined)).toBe('This field is mandatory')
 		expect(validateField([VALIDATIONS.endsWithMd], undefined)).toBeUndefined()
-		expect(validateField([VALIDATIONS.requiredAndEndsWithMd], undefined)).toBe('This field is mandatory')
+		expect(validateField([VALIDATIONS.requiredAndEndsWithMd], undefined)).toBe(
+			'This field is mandatory',
+		)
 		expect(validateField([VALIDATIONS.timeShift], undefined)).toBeUndefined()
 	})
 

@@ -7,7 +7,10 @@ export class NoteCreator {
 		this.obsidian = obsidian
 	}
 
-	public async openOrCreateFileFromTemplate(noteFilePath: string, templateFilePath?: string): Promise<string> {
+	public async openOrCreateFileFromTemplate(
+		noteFilePath: string,
+		templateFilePath?: string,
+	): Promise<string> {
 		const noteFileExists = this.obsidian.doesFileExist(noteFilePath)
 		return noteFileExists
 			? this.obsidian.openFile(noteFilePath)

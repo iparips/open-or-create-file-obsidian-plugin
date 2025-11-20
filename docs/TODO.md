@@ -20,3 +20,4 @@
 - [x] Release
 - [x] Add time shift that would support format like "Next Monday"
 - [ ] Use last period's note as a template
+  - [ ] Make the label and description wider in settings

@@ -14,9 +14,15 @@ interface SettingsProps {
 
 export const SettingsComponent = ({ settings, updatePluginSettings }: SettingsProps) => {
 	const [localSettings, setLocalSettings] = useState<CreateOrOpenFilePluginSettings>(settings)
-	const [validationResult, setValidationResult] = useState<ValidationResult>(new ValidationResult([]))
+	const [validationResult, setValidationResult] = useState<ValidationResult>(
+		new ValidationResult([]),
+	)
 
-	const updateCommand = async (index: number, commandKey: keyof CommandConfig, newValue: string | boolean) => {
+	const updateCommand = async (
+		index: number,
+		commandKey: keyof CommandConfig,
+		newValue: string | boolean,
+	) => {
 		const newSettings = {
 			...localSettings,
 			commandConfigs: localSettings.commandConfigs.map((config, i) =>
@@ -63,7 +69,11 @@ export const SettingsComponent = ({ settings, updatePluginSettings }: SettingsPr
 
 	return (
 		<div className="open-or-create-file-settings" data-plugin="open-or-create-file">
-			<ActionsHeader settings={localSettings} onSettingsImported={handleSettingsImported} onAddCommand={addCommand} />
+			<ActionsHeader
+				settings={localSettings}
+				onSettingsImported={handleSettingsImported}
+				onAddCommand={addCommand}
+			/>
 			<ValidationSummary validationResult={validationResult} />
 			{localSettings.commandConfigs.map((command: CommandConfig, index) => (
 				<CommandCard

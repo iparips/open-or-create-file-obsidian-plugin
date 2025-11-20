@@ -8,14 +8,19 @@ interface SettingToggleProps {
 	onChange: (value: boolean) => void
 }
 
-export const SettingToggle: React.FC<SettingToggleProps> = ({ name, description, value, onChange }) => {
+export const SettingToggle: React.FC<SettingToggleProps> = ({
+	name,
+	description,
+	value,
+	onChange,
+}) => {
 	const toggleRef = useRef<HTMLDivElement>(null)
 	const toggleComponentRef = useRef<ToggleComponent | null>(null)
 	const onChangeRef = useRef(onChange)
 
 	useEffect(() => {
-		onChangeRef.current = onChange}, [onChange]
-	)
+		onChangeRef.current = onChange
+	}, [onChange])
 
 	useEffect(() => {
 		toggleComponentRef.current?.setValue(value)

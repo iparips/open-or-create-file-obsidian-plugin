@@ -65,7 +65,9 @@ describe('ObsidianAdapter', () => {
 		it('exits with error when template file is supplied but not found', async () => {
 			vi.spyOn(vault, 'getFileByPath').mockReturnValue(null)
 
-			await expect(adapter.createFileAndFolder(filePath, templatePath)).rejects.toBe('Template file not found')
+			await expect(adapter.createFileAndFolder(filePath, templatePath)).rejects.toBe(
+				'Template file not found',
+			)
 		})
 
 		it('creates empty note when template file is not supplied', async () => {
@@ -83,7 +85,9 @@ describe('ObsidianAdapter', () => {
 
 		it('creates note directory when note directory is missing', async () => {
 			const templateFile = mockTFile(templatePath)
-			vi.spyOn(vault, 'getFileByPath').mockImplementation((path) => (path === templatePath ? templateFile : null))
+			vi.spyOn(vault, 'getFileByPath').mockImplementation((path) =>
+				path === templatePath ? templateFile : null,
+			)
 			vi.spyOn(vault, 'getFolderByPath').mockReturnValue(null)
 			vi.spyOn(vault, 'createFolder').mockResolvedValue(mockTFolder(folderPath))
 			vi.spyOn(vault, 'read').mockResolvedValue('template content')
@@ -99,7 +103,9 @@ describe('ObsidianAdapter', () => {
 			const templateFile = mockTFile(templatePath)
 			const existingFolder = mockTFolder(folderPath)
 
-			vi.spyOn(vault, 'getFileByPath').mockImplementation((path) => (path === templatePath ? templateFile : null))
+			vi.spyOn(vault, 'getFileByPath').mockImplementation((path) =>
+				path === templatePath ? templateFile : null,
+			)
 			vi.spyOn(vault, 'getFolderByPath').mockReturnValue(existingFolder)
 			vi.spyOn(vault, 'read').mockResolvedValue('template content')
 			vi.spyOn(vault, 'create').mockResolvedValue(mockTFile(filePath))

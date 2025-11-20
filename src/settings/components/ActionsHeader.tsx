@@ -10,7 +10,11 @@ interface ActionsHeaderProps {
 	onAddCommand: () => void
 }
 
-export const ActionsHeader: React.FC<ActionsHeaderProps> = ({ settings, onSettingsImported, onAddCommand }) => {
+export const ActionsHeader: React.FC<ActionsHeaderProps> = ({
+	settings,
+	onSettingsImported,
+	onAddCommand,
+}) => {
 	const exportSettings = (): void => {
 		const dataStr: string = JSON.stringify(settings, null, 2)
 		const blob: Blob = new Blob([dataStr], { type: 'application/json' })

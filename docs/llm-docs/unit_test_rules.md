@@ -14,10 +14,10 @@
 ## Arrange - Act - Assert test case structure
 
 All test cases should follow the below structure
+
 - Arrange - where input data is arranged
 - Act - where class under test is invoked
 - Assert - where assertions on the output are made
 
 When a test case is large: multiple concepts / objects are setup in either of the above sections,
 Then either group those sections using blank lines
- 

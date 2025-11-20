@@ -75,7 +75,9 @@ export const CommandCard: React.FC<CommandCardProps> = ({
 					placeholder="shopping-list.md"
 					value={command.fileNamePattern}
 					onChange={(value) => onUpdate(index, 'fileNamePattern', value)}
-					onBlur={(value) => validate('fileNamePattern', value, [VALIDATIONS.requiredAndEndsWithMd])}
+					onBlur={(value) =>
+						validate('fileNamePattern', value, [VALIDATIONS.requiredAndEndsWithMd])
+					}
 					error={displayErrors.fileNamePattern}
 				/>
 
@@ -91,7 +93,7 @@ export const CommandCard: React.FC<CommandCardProps> = ({
 
 				<SettingToggle
 					name="Use previous note as template"
-					description="When enabled, automatically search for previous period's notes and use as template"
+					description="When enabled, automatically search for previous period's notes and use as template. Takes precedence over template file."
 					value={command.usePreviousNoteAsTemplate ?? false}
 					onChange={(value) => {
 						console.log('CommandCard onChange called with:', value)
