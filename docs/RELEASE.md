@@ -31,6 +31,7 @@ bun run version:major   # Breaking changes (0.3.0 → 1.0.0)
 ```
 
 This automatically:
+
 - Updates `package.json`, `manifest.json`, and `versions.json`
 - Creates a git commit
 - Creates a git tag
