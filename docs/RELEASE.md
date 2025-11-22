@@ -2,7 +2,17 @@
 
 ## Steps to Release a New Version
 
-### 1. Build the Plugin
+Important: Always create releases from the `main` branch after merging your feature PR. Tags should point to commits on main, not feature branches.
+
+### 1. Merge and Checkout Main
+
+```bash
+# Merge your feature PR via GitHub
+# Then pull the latest main
+git checkout main && git pull
+```
+
+### 2. Build the Plugin
 
 ```bash
 bun run build
@@ -10,7 +20,7 @@ bun run build
 
 This runs tests, linting, and builds `main.js`.
 
-### 2. Bump the Version
+### 3. Bump the Version
 
 Run one of the following commands based on the type of change:
 
@@ -25,13 +35,13 @@ This automatically:
 - Creates a git commit
 - Creates a git tag
 
-### 3. Push to GitHub
+### 4. Push to GitHub
 
 ```bash
 git push origin main --tags
 ```
 
-### 4. Create GitHub Release
+### 5. Create GitHub Release
 
 1. Go to [Releases](../../releases) → "Draft a new release"
 2. Select the new tag (e.g., `0.4.0`)
