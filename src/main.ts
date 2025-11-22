@@ -13,12 +13,22 @@ export default class CreateOrOpenFilePlugin extends Plugin {
 		this.settings = await this.loadSettingsFromFile()
 		this.registerCommands(this.settings.commandConfigs)
 		// bind this so that "this" reference inside update updateSettings points to MyPlugin.
-		this.addSettingTab(new CreateOrOpenFileSettingsTab(this.app, this, this.updateSettings.bind(this)))
+		this.addSettingTab(
+			new CreateOrOpenFileSettingsTab(this.app, this, this.updateSettings.bind(this)),
+		)
 	}
 
 	private async loadSettingsFromFile(): Promise<CreateOrOpenFilePluginSettings> {
 		const data: CreateOrOpenFilePluginSettings = await this.loadData()
-		return Object.assign({}, DEFAULT_SETTINGS, data)
+		const settings = Object.assign({}, DEFAULT_SETTINGS, data)
+
+		// Ensure all commands have the new optional fields
+		settings.commandConfigs = settings.commandConfigs.map((config) => ({
+			...config,
+			usePreviousNoteAsTemplate: config.usePreviousNoteAsTemplate ?? false,
+		}))
+
+		return settings
 	}
 
 	onunload() {

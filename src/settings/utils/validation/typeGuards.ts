@@ -11,7 +11,8 @@ export function isObject(value: unknown): value is Record<string, unknown> {
 export function isCommandSettings(value: unknown): value is CommandConfig {
 	if (!isObject(value)) return false
 
-	const { commandName, templateFilePath, destinationFolderPattern, fileNamePattern, timeShift } = value
+	const { commandName, templateFilePath, destinationFolderPattern, fileNamePattern, timeShift } =
+		value
 
 	return (
 		isString(commandName) &&

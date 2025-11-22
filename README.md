@@ -75,6 +75,37 @@ Examples:
 - `-2 weeks` → Use date from 2 weeks ago
 - `+3 months` → Use date from 3 months in the future
 
+## Use Previous Note as Template
+
+When enabled, this feature automatically uses the most recent existing note (matching your pattern) as a template for the new note. This is useful for carrying over content like recurring tasks or project status.
+
+### How it works
+
+1. The plugin detects the time granularity from your path patterns (`{day}`, `{week}`, `{month}`, or `{year}`)
+2. It searches backward in time for existing notes that match the pattern
+3. The first existing note found becomes the template
+
+### Granularity detection
+
+The smallest time unit in your pattern determines the search interval:
+
+- `{day}` or `{dow}` → searches daily
+- `{week}` → searches weekly
+- `{month}` → searches monthly
+- `{year}` → searches yearly
+
+### Limitations
+
+**Time shift unit override**: When a time shift is specified, its unit overrides the detected granularity. This can cause unexpected behavior:
+
+- Pattern: `{month}-{day}-{dow}.md` (daily granularity)
+- Time shift: `+1 week`
+- Result: Searches at **weekly** intervals, not daily
+
+This means if your weekly note was created on Monday but you run the command on Tuesday, the search will skip to the previous week rather than finding Monday's note.
+
+**Workaround**: Ensure your time shift unit matches your file naming granularity, or rely on the automatic detection by not specifying a time shift.
+
 ## Support the project
 
 If you find this plugin helpful, consider supporting its development:

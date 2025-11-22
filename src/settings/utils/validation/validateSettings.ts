@@ -77,7 +77,9 @@ const validateCommand = (command: unknown, index: number): ValidationError[] => 
 
 export const validateSettings = (data: unknown): ValidationResult => {
 	if (!isImportedSettings(data)) {
-		return new ValidationResult([{ field: 'root', fieldDisplayName: 'Settings', message: 'Invalid data format' }])
+		return new ValidationResult([
+			{ field: 'root', fieldDisplayName: 'Settings', message: 'Invalid data format' },
+		])
 	}
 	const errors = data.commandConfigs.flatMap((command, index) => validateCommand(command, index))
 	return new ValidationResult(errors)

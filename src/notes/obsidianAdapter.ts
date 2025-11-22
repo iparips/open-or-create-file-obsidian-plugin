@@ -18,7 +18,9 @@ export class ObsidianAdapter {
 	public async openFile(filePath: string, sourcePath = ''): Promise<string> {
 		return this.app.workspace
 			.openLinkText(normalizePath(filePath), normalizePath(sourcePath))
-			.catch(() => Promise.reject(`Could not open the filePath [${filePath}], sourcePath[${sourcePath}]`))
+			.catch(() =>
+				Promise.reject(`Could not open the filePath [${filePath}], sourcePath[${sourcePath}]`),
+			)
 			.then(() => Promise.resolve('Note opened'))
 	}
 
@@ -45,6 +47,8 @@ export class ObsidianAdapter {
 	private loadTemplateContent(templateFilePath: string): Promise<string> {
 		const normalisedTemplatePath = normalizePath(templateFilePath)
 		const templateFile = this.app.vault.getFileByPath(normalisedTemplatePath)
-		return templateFile ? this.app.vault.read(templateFile) : Promise.reject('Template file not found')
+		return templateFile
+			? this.app.vault.read(templateFile)
+			: Promise.reject('Template file not found')
 	}
 }

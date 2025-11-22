@@ -158,6 +158,7 @@ describe('SettingsComponent', () => {
 							destinationFolderPattern: '',
 							fileNamePattern: '',
 							timeShift: '',
+							usePreviousNoteAsTemplate: false,
 						},
 						{
 							commandName: 'Test Command 1',
@@ -197,7 +198,9 @@ describe('SettingsComponent', () => {
 	describe('local state management', () => {
 		it('maintains local state independently of prop changes', async () => {
 			const user = userEvent.setup()
-			const { rerender } = render(<SettingsComponent settings={mockSettings} updatePluginSettings={mockSaveSettings} />)
+			const { rerender } = render(
+				<SettingsComponent settings={mockSettings} updatePluginSettings={mockSaveSettings} />,
+			)
 
 			// Change local state
 			const commandNameInput = screen.getByTestId('command-name-0') as HTMLInputElement
@@ -207,7 +210,9 @@ describe('SettingsComponent', () => {
 			expect(commandNameInput.value).toBe('Local Change')
 
 			// Re-render with same props (simulating parent not re-rendering yet)
-			rerender(<SettingsComponent settings={mockSettings} updatePluginSettings={mockSaveSettings} />)
+			rerender(
+				<SettingsComponent settings={mockSettings} updatePluginSettings={mockSaveSettings} />,
+			)
 
 			// Local state should persist
 			expect(commandNameInput.value).toBe('Local Change')

@@ -50,18 +50,18 @@ describe('NoteCreator', () => {
 			vi.spyOn(adapter, 'doesFileExist').mockReturnValue(false)
 			vi.spyOn(adapter, 'createFileAndFolder').mockRejectedValue('Template file not found')
 
-			await expect(noteCreator.openOrCreateFileFromTemplate(noteFilePath, templateFilePath)).rejects.toBe(
-				'Template file not found',
-			)
+			await expect(
+				noteCreator.openOrCreateFileFromTemplate(noteFilePath, templateFilePath),
+			).rejects.toBe('Template file not found')
 		})
 
 		it('propagates error when file cannot be opened', async () => {
 			vi.spyOn(adapter, 'doesFileExist').mockReturnValue(true)
 			vi.spyOn(adapter, 'openFile').mockRejectedValue('Could not open file')
 
-			await expect(noteCreator.openOrCreateFileFromTemplate(noteFilePath, templateFilePath)).rejects.toBe(
-				'Could not open file',
-			)
+			await expect(
+				noteCreator.openOrCreateFileFromTemplate(noteFilePath, templateFilePath),
+			).rejects.toBe('Could not open file')
 		})
 	})
 })

@@ -1,6 +1,6 @@
 {
 	"name": "open-or-create-file-command",
-	"version": "0.1.11",
+	"version": "0.2.0",
 	"description": "Create custom Obsidian commands that open or create files using configurable patterns and templates.",
 	"main": "main.js",
 	"scripts": {

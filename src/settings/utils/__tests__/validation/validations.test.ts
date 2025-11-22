@@ -71,8 +71,12 @@ describe('VALIDATIONS', () => {
 		})
 
 		it('should return error for non-empty string without .md extension', () => {
-			expect(VALIDATIONS.requiredAndEndsWithMd('file.txt')).toBe('File name should end with .md extension')
-			expect(VALIDATIONS.requiredAndEndsWithMd('file')).toBe('File name should end with .md extension')
+			expect(VALIDATIONS.requiredAndEndsWithMd('file.txt')).toBe(
+				'File name should end with .md extension',
+			)
+			expect(VALIDATIONS.requiredAndEndsWithMd('file')).toBe(
+				'File name should end with .md extension',
+			)
 		})
 
 		it('should return undefined for valid .md file', () => {

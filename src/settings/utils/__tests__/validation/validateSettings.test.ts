@@ -118,7 +118,8 @@ describe('validateSettings', () => {
 				expect(result.errors[0]).toEqual({
 					field: 'timeShift',
 					fieldDisplayName: 'Time shift',
-					message: 'Time shift must be in format "+N unit" or "-N unit" (e.g., "+1 day", "-2 weeks", "+3 months")',
+					message:
+						'Time shift must be in format "+N unit" or "-N unit" (e.g., "+1 day", "-2 weeks", "+3 months")',
 					commandIndex: 0,
 				})
 			})
@@ -188,7 +189,9 @@ describe('validateSettings', () => {
 
 			expect(result).toBeInstanceOf(ValidationResult)
 			expect(result.isValid).toBe(false)
-			expect(result.errors).toEqual([{ field: 'root', fieldDisplayName: 'Settings', message: 'Invalid data format' }])
+			expect(result.errors).toEqual([
+				{ field: 'root', fieldDisplayName: 'Settings', message: 'Invalid data format' },
+			])
 			expect(result.hasErrors()).toBe(true)
 			expect(result.getErrorCount()).toBe(1)
 			expect(isImportedSettings).toHaveBeenCalledWith(null)
