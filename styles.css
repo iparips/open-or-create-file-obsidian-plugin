@@ -99,6 +99,20 @@
 	line-height: 1.4;
 }
 
+/* Toggle-specific layout: 75% info, 25% control */
+[data-plugin='open-or-create-file'] .settings-grid .setting-item.setting-item-toggle {
+	display: grid;
+	grid-template-columns: 3fr 1fr;
+	align-items: center;
+}
+
+[data-plugin='open-or-create-file']
+	.settings-grid
+	.setting-item.setting-item-toggle
+	.setting-item-control {
+	justify-self: end;
+}
+
 [data-plugin='open-or-create-file'] .settings-grid .setting-item input {
 	width: 100%;
 	padding: 0.75em;
@@ -194,6 +208,20 @@
 	[data-plugin='open-or-create-file'] .settings-grid .setting-item {
 		gap: 0.75em;
 	}
+
+	/* Keep toggle in grid layout on mobile */
+	[data-plugin='open-or-create-file'] .settings-grid .setting-item.setting-item-toggle {
+		display: grid;
+		grid-template-columns: 3fr 1fr;
+		align-items: center;
+	}
+
+	[data-plugin='open-or-create-file']
+		.settings-grid
+		.setting-item.setting-item-toggle
+		.setting-item-info {
+		margin-bottom: 0;
+	}
 }
 
 /* Tablet breakpoint (768px and up) */
@@ -230,6 +258,11 @@
 	[data-plugin='open-or-create-file'] .command-container {
 		padding: 1.5em;
 	}
+
+	/* Override toggle grid columns on tablet */
+	[data-plugin='open-or-create-file'] .settings-grid .setting-item.setting-item-toggle {
+		grid-template-columns: 3fr 1fr;
+	}
 }
 
 /* Desktop breakpoint (1024px and up) */
@@ -260,6 +293,11 @@
 
 	[data-plugin='open-or-create-file'] .settings-grid {
 		gap: 0.5em;
+	}
+
+	/* Override toggle grid columns on desktop */
+	[data-plugin='open-or-create-file'] .settings-grid .setting-item.setting-item-toggle {
+		grid-template-columns: 3fr 1fr;
 	}
 }
 

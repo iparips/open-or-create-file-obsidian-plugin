@@ -37,7 +37,7 @@ export const SettingToggle: React.FC<SettingToggleProps> = ({
 	}, [])
 
 	return (
-		<div className="setting-item" data-plugin="open-or-create-file">
+		<div className="setting-item setting-item-toggle" data-plugin="open-or-create-file">
 			<div className="setting-item-info">
 				<div className="setting-item-name">{name}</div>
 				<div className="setting-item-description">{description}</div>
