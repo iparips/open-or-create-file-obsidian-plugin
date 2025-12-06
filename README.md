@@ -118,6 +118,6 @@ Your support helps me dedicate more time to improving this plugin and developing
 
 ## Other documentation
 
-- [TODO](docs/TODO.md) - Planned features and improvements
+- [TODO](docs/sdd/1-requirements/0-index.md) - Planned features and improvements
 - [Contributing](docs/CONTRIBUTING.md) - How to contribute to this project
 - [Release Notes](docs/RELEASE.md) - Version history and changelog

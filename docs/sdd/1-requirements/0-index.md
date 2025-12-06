@@ -1,4 +1,4 @@
-# Todo
+# Requirements
 
 - [x] Proof of concept note creator with hardcoded file paths
 - [x] Hook up configuration
@@ -21,3 +21,4 @@
 - [x] Add time shift that would support format like "Next Monday"
 - [x] Use last period's note as a template
   - [x] Make the label and description wider in settings
+- [ ] Make settings sync
