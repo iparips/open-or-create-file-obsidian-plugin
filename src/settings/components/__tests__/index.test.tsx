@@ -1,9 +1,18 @@
 import React from 'react'
-import { cleanup, render, screen, waitFor } from '@testing-library/react'
+import { act, cleanup, render, screen, waitFor } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
+import type { Events, EventRef } from 'obsidian'
 import { SettingsComponent } from '../index'
 import type { CommandConfig, CreateOrOpenFilePluginSettings } from '../../../types'
+
+const createMockEvents = (): Events => {
+	const partial: Partial<Events> = {
+		on: vi.fn(() => ({}) as EventRef),
+		offref: vi.fn(),
+	}
+	return partial as Events
+}
 
 // Mock the child components to isolate our tests
 vi.mock('../ActionsHeader', () => ({
@@ -67,6 +76,7 @@ vi.mock('../CommandCard', () => ({
 
 describe('SettingsComponent', () => {
 	const mockSaveSettings = vi.fn()
+	const mockSettingsEvents = createMockEvents()
 	let mockSettings: CreateOrOpenFilePluginSettings
 
 	beforeEach(() => {
@@ -88,7 +98,13 @@ describe('SettingsComponent', () => {
 	})
 
 	it('renders with initial settings', () => {
-		render(<SettingsComponent settings={mockSettings} updatePluginSettings={mockSaveSettings} />)
+		render(
+			<SettingsComponent
+				settings={mockSettings}
+				updatePluginSettings={mockSaveSettings}
+				settingsEvents={mockSettingsEvents}
+			/>,
+		)
 
 		expect(screen.getByTestId('command-card-0')).toBeDefined()
 		expect(screen.getByDisplayValue('Test Command 1')).toBeDefined()
@@ -97,7 +113,13 @@ describe('SettingsComponent', () => {
 	describe('updateCommand', () => {
 		it('updates local state and calls saveSettings when command name is changed', async () => {
 			const user = userEvent.setup()
-			render(<SettingsComponent settings={mockSettings} updatePluginSettings={mockSaveSettings} />)
+			render(
+				<SettingsComponent
+					settings={mockSettings}
+					updatePluginSettings={mockSaveSettings}
+					settingsEvents={mockSettingsEvents}
+				/>,
+			)
 
 			const commandNameInput = screen.getByTestId('command-name-0') as HTMLInputElement
 
@@ -126,7 +148,13 @@ describe('SettingsComponent', () => {
 	describe('deleteCommand', () => {
 		it('removes command and calls saveSettings', async () => {
 			const user = userEvent.setup()
-			render(<SettingsComponent settings={mockSettings} updatePluginSettings={mockSaveSettings} />)
+			render(
+				<SettingsComponent
+					settings={mockSettings}
+					updatePluginSettings={mockSaveSettings}
+					settingsEvents={mockSettingsEvents}
+				/>,
+			)
 
 			const deleteButton = screen.getByTestId('delete-0')
 			await user.click(deleteButton)
@@ -142,7 +170,13 @@ describe('SettingsComponent', () => {
 	describe('addCommand', () => {
 		it('adds new command with default values and calls saveSettings', async () => {
 			const user = userEvent.setup()
-			render(<SettingsComponent settings={mockSettings} updatePluginSettings={mockSaveSettings} />)
+			render(
+				<SettingsComponent
+					settings={mockSettings}
+					updatePluginSettings={mockSaveSettings}
+					settingsEvents={mockSettingsEvents}
+				/>,
+			)
 
 			const addButton = screen.getByTestId('add-command-button')
 			await user.click(addButton)
@@ -175,7 +209,13 @@ describe('SettingsComponent', () => {
 	describe('handleSettingsImported', () => {
 		it('updates settings when import button is clicked', async () => {
 			const user = userEvent.setup()
-			render(<SettingsComponent settings={mockSettings} updatePluginSettings={mockSaveSettings} />)
+			render(
+				<SettingsComponent
+					settings={mockSettings}
+					updatePluginSettings={mockSaveSettings}
+					settingsEvents={mockSettingsEvents}
+				/>,
+			)
 
 			const importButton = screen.getByTestId('import-button')
 			await user.click(importButton)
@@ -196,26 +236,46 @@ describe('SettingsComponent', () => {
 	})
 
 	describe('local state management', () => {
-		it('maintains local state independently of prop changes', async () => {
-			const user = userEvent.setup()
-			const { rerender } = render(
-				<SettingsComponent settings={mockSettings} updatePluginSettings={mockSaveSettings} />,
+		it('updates UI when settings-reloaded event fires (for Obsidian Sync)', async () => {
+			const mockEvents = createMockEvents()
+			const onSpy = vi.spyOn(mockEvents, 'on')
+
+			render(
+				<SettingsComponent
+					settings={mockSettings}
+					updatePluginSettings={mockSaveSettings}
+					settingsEvents={mockEvents}
+				/>,
 			)
 
-			// Change local state
 			const commandNameInput = screen.getByTestId('command-name-0') as HTMLInputElement
-			await user.clear(commandNameInput)
-			await user.type(commandNameInput, 'Local Change')
+			expect(commandNameInput.value).toBe('Test Command 1')
 
-			expect(commandNameInput.value).toBe('Local Change')
+			// Verify the component subscribed to the event
+			expect(onSpy).toHaveBeenCalledWith('settings-reloaded', expect.any(Function))
 
-			// Re-render with same props (simulating parent not re-rendering yet)
-			rerender(
-				<SettingsComponent settings={mockSettings} updatePluginSettings={mockSaveSettings} />,
-			)
+			// Get the callback that was registered
+			const settingsReloadedCallback = onSpy.mock.calls[0][1]
 
-			// Local state should persist
-			expect(commandNameInput.value).toBe('Local Change')
+			const updatedSettings: CreateOrOpenFilePluginSettings = {
+				commandConfigs: [
+					{
+						commandName: 'Synced From Another Device',
+						templateFilePath: 'template1.md',
+						destinationFolderPattern: 'folder1',
+						fileNamePattern: 'file1.md',
+					},
+				],
+			}
+
+			// Simulate the settings-reloaded event being fired
+			act(() => {
+				settingsReloadedCallback(updatedSettings)
+			})
+
+			await waitFor(() => {
+				expect(commandNameInput.value).toBe('Synced From Another Device')
+			})
 		})
 	})
 })
