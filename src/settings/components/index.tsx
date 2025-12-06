@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import type { CommandConfig, CreateOrOpenFilePluginSettings } from '../../types'
+import type { Events } from 'obsidian'
 
 import { ActionsHeader } from './ActionsHeader'
 import { CommandCard } from './CommandCard'
@@ -10,9 +11,14 @@ import { ValidationResult } from '../utils/validation/validationResult'
 interface SettingsProps {
 	settings: CreateOrOpenFilePluginSettings
 	updatePluginSettings: (newSettings: CreateOrOpenFilePluginSettings) => Promise<void>
+	settingsEvents: Events
 }
 
-export const SettingsComponent = ({ settings, updatePluginSettings }: SettingsProps) => {
+export const SettingsComponent = ({
+	settings,
+	updatePluginSettings,
+	settingsEvents,
+}: SettingsProps) => {
 	const [localSettings, setLocalSettings] = useState<CreateOrOpenFilePluginSettings>(settings)
 	const [validationResult, setValidationResult] = useState<ValidationResult>(
 		new ValidationResult([]),
@@ -61,6 +67,22 @@ export const SettingsComponent = ({ settings, updatePluginSettings }: SettingsPr
 		setLocalSettings(importedSettings)
 		await updatePluginSettings(importedSettings)
 	}
+
+	// Subscribe to settings-reloaded events (settingsEvents is a stable service object)
+	useEffect(() => {
+		const handleSettingsReloaded = (newSettings: CreateOrOpenFilePluginSettings) => {
+			setLocalSettings(newSettings)
+		}
+
+		const eventRef = settingsEvents.on(
+			'settings-reloaded',
+			handleSettingsReloaded as (...data: unknown[]) => unknown,
+		)
+
+		return () => {
+			settingsEvents.offref(eventRef)
+		}
+	}, [])
 
 	useEffect(() => {
 		const result = validateSettings(localSettings)
