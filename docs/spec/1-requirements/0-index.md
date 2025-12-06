@@ -24,3 +24,4 @@
 - [x] Make settings sync
   - [x] Tidy up the new code
   - [x] Show a notification when settings have been updated
+- [ ] Folder archiving
