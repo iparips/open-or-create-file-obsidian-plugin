@@ -22,34 +22,35 @@
 - Start with a test outline that lists all the scenarios before implementation
 
 Example structure:
+
 ```typescript
 describe('functionName', () => {
-  let commonMock: ReturnType<typeof vi.fn>
-  let spy: ReturnType<typeof vi.spyOn>
+	let commonMock: ReturnType<typeof vi.fn>
+	let spy: ReturnType<typeof vi.spyOn>
 
-  beforeEach(() => {
-    vi.clearAllMocks()
-    commonMock = vi.fn()
-    spy = vi.spyOn(console, 'error').mockImplementation(() => {})
-  })
+	beforeEach(() => {
+		vi.clearAllMocks()
+		commonMock = vi.fn()
+		spy = vi.spyOn(console, 'error').mockImplementation(() => {})
+	})
 
-  afterEach(() => {
-    spy.mockRestore()
-  })
+	afterEach(() => {
+		spy.mockRestore()
+	})
 
-  describe('when context A', () => {
-    beforeEach(() => {
-      // Setup specific to this context
-    })
+	describe('when context A', () => {
+		beforeEach(() => {
+			// Setup specific to this context
+		})
 
-    it('does X when condition Y', () => {
-      // Test implementation
-    })
-  })
+		it('does X when condition Y', () => {
+			// Test implementation
+		})
+	})
 
-  describe('when context B', () => {
-    // Tests for different context
-  })
+	describe('when context B', () => {
+		// Tests for different context
+	})
 })
 ```
 

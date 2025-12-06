@@ -68,6 +68,7 @@ export const SettingsComponent = ({
 		await updatePluginSettings(importedSettings)
 	}
 
+	// Subscribe to settings-reloaded events (settingsEvents is a stable service object)
 	useEffect(() => {
 		const handleSettingsReloaded = (newSettings: CreateOrOpenFilePluginSettings) => {
 			setLocalSettings(newSettings)
@@ -81,7 +82,7 @@ export const SettingsComponent = ({
 		return () => {
 			settingsEvents.offref(eventRef)
 		}
-	}, [settingsEvents])
+	}, [])
 
 	useEffect(() => {
 		const result = validateSettings(localSettings)
