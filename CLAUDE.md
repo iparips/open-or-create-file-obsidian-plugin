@@ -2,7 +2,10 @@
 
 - When generating code, follow rules in @docs/spec/0-rules/maintainability-rules.md
 - When writing tests, follow rules in @docs/spec/0-rules/unit-test-rules.md
+- Read the system architecture overview in @docs/spec/2-design/1-open-or-create-architecture-overview.md
 - To run tests use `bun run test`
+- Always use Australian English
+- Never use Markdown bold formatting in generated text.
 
 ## Specification-Driven Development Workflow
 

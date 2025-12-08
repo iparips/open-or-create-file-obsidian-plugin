@@ -75,14 +75,14 @@ export default class CreateOrOpenFilePlugin extends Plugin {
 
 Advantages:
 
-- **Official API**: Uses Obsidian's official lifecycle method specifically designed for this purpose
-- **Reliable**: Fires only when data.json is actually modified by external sources
-- **No setup required**: No need to manually register file watchers
-- **Automatic cleanup**: Lifecycle methods are automatically managed by Obsidian
+- Official API: Uses Obsidian's official lifecycle method specifically designed for this purpose
+- Reliable: Fires only when data.json is actually modified by external sources
+- No setup required: No need to manually register file watchers
+- Automatic cleanup: Lifecycle methods are automatically managed by Obsidian
 
 Alternatives Considered:
 
-**Option 2: Vault 'modify' event**
+Option 2: Vault 'modify' event
 
 ```typescript
 this.registerEvent(
@@ -96,7 +96,7 @@ this.registerEvent(
 
 Rejected: Doesn't fire for .obsidian directory files
 
-**Option 3: Vault adapter file watch**
+Option 3: Vault adapter file watch
 
 ```typescript
 this.app.vault.adapter.watch(this.manifest.dir + '/data.json', () => {
@@ -106,7 +106,7 @@ this.app.vault.adapter.watch(this.manifest.dir + '/data.json', () => {
 
 Rejected: Lower-level API, manual cleanup required, less reliable
 
-**Option 4: Periodic polling**
+Option 4: Periodic polling
 Rejected: Inefficient, adds unnecessary overhead
 
 ## Data Flow
@@ -158,10 +158,10 @@ const debounce = <T extends (...args: unknown[]) => unknown>(
 
 Benefits:
 
-- **Encapsulation**: Timer state is managed in the closure, not instance state
-- **Reusable**: Can be used for other debounced operations
-- **Type-safe**: Preserves function signature
-- **Clean**: No need to manually clear timers throughout the class
+- Encapsulation: Timer state is managed in the closure, not instance state
+- Reusable: Can be used for other debounced operations
+- Type-safe: Preserves function signature
+- Clean: No need to manually clear timers throughout the class
 
 ## UI Update Mechanism
 
@@ -249,7 +249,7 @@ try {
 
 ### Files Modified
 
-1. **src/main.ts**
+1. src/main.ts
 
    - Added `debounce()` utility function
    - Added `debouncedReloadSettings` property
@@ -259,13 +259,13 @@ try {
    - Added error handlers: `handleInvalidSettings()`, `handleReloadError()`
    - Added `settingsEvents` event emitter for UI updates
 
-2. **src/settings/components/index.tsx**
+2. src/settings/components/index.tsx
 
    - Added `settingsEvents` prop
    - Added useEffect to subscribe to 'settings-reloaded' event
    - Component updates `localSettings` when event fires
 
-3. **src/settings/CreateOrOpenFileSettingsTab.ts**
+3. src/settings/CreateOrOpenFileSettingsTab.ts
    - Pass `plugin.settingsEvents` to React component
 
 ### Dependencies
@@ -288,10 +288,10 @@ No new dependencies required. Uses existing:
 
 ### Edge Case Testing
 
-1. **Rapid changes**: Modify settings multiple times quickly, verify single reload
-2. **Settings tab open**: Have tab open during sync, verify UI updates
-3. **Invalid data**: Manually corrupt data.json, verify graceful handling with notice
-4. **Read errors**: Make data.json unreadable, verify error handling
+1. Rapid changes: Modify settings multiple times quickly, verify single reload
+2. Settings tab open: Have tab open during sync, verify UI updates
+3. Invalid data: Manually corrupt data.json, verify graceful handling with notice
+4. Read errors: Make data.json unreadable, verify error handling
 
 ### Automated Testing
 
