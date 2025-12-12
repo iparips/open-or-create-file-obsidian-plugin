@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { VALIDATIONS } from '../../validation/validations'
+import { VALIDATIONS } from '../validations'
 
 describe('VALIDATIONS', () => {
 	describe('required', () => {

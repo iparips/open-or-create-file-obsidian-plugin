@@ -1,16 +1,16 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { configureDefaultsAndValidateSettings } from '../configureDefaultsAndValidateSettings'
 import { DEFAULT_SETTINGS } from '../constants'
-import { validateSettings } from '../utils/validation/validateSettings'
-import { ValidationResult } from '../utils/validation/validationResult'
+import { validateSettings } from '../validation/validateSettings'
+import { ValidationResult } from '../validation/validationResult'
 import { Notice } from 'obsidian'
-import type { CreateOrOpenFilePluginSettings } from '../../types'
+import type { CreateOrOpenFilePluginSettings } from '../../../types'
 
 vi.mock('obsidian', () => ({
 	Notice: vi.fn(),
 }))
 
-vi.mock('../utils/validation/validateSettings', () => ({
+vi.mock('../validation/validateSettings', () => ({
 	validateSettings: vi.fn(),
 }))
 

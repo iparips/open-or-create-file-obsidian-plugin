@@ -1,9 +1,9 @@
 import { debounce, Events, Notice, Plugin } from 'obsidian'
-import { CreateOrOpenFileSettingsTab } from './settings/CreateOrOpenFileSettingsTab'
-import { createOrOpenFileCommandCallback } from './command/commandCallback'
+import { SettingsTab } from './settings/common/SettingsTab'
+import { createOrOpenFileCommandCallback } from './command/open-or-create/commandCallback'
 import { ObsidianAdapter } from './notes/obsidianAdapter'
 import { CommandConfig, CreateOrOpenFilePluginSettings } from './types'
-import { configureDefaultsAndValidateSettings } from './settings/configureDefaultsAndValidateSettings'
+import { configureDefaultsAndValidateSettings } from './settings/common/configureDefaultsAndValidateSettings'
 
 export default class CreateOrOpenFilePlugin extends Plugin {
 	settings!: CreateOrOpenFilePluginSettings
@@ -26,9 +26,7 @@ export default class CreateOrOpenFilePlugin extends Plugin {
 		this.registerCommands(this.settings.commandConfigs)
 
 		// bind this so that "this" reference inside update updateSettings points to MyPlugin.
-		this.addSettingTab(
-			new CreateOrOpenFileSettingsTab(this.app, this, this.updateSettings.bind(this)),
-		)
+		this.addSettingTab(new SettingsTab(this.app, this, this.updateSettings.bind(this)))
 	}
 
 	onunload() {

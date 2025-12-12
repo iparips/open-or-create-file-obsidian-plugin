@@ -6,36 +6,39 @@ This task list implements the folder archiving feature as specified in @docs/spe
 
 ### Task 0.1: Refactor command directory structure
 
-- [ ] Create `src/command/open-or-create/` directory
-- [ ] Move `src/command/commandCallback.ts` to `src/command/open-or-create/commandCallback.ts`
-- [ ] Move `src/command/timeShift.ts` to `src/command/open-or-create/timeShift.ts`
-- [ ] Move `src/command/previous-note-candidate-finder/` to `src/command/open-or-create/previous-note-candidate-finder/`
+- [x] Create `src/command/open-or-create/` directory
+- [x] Move `src/command/commandCallback.ts` to `src/command/open-or-create/commandCallback.ts`
+- [x] Move `src/command/timeShift.ts` to `src/command/open-or-create/timeShift.ts`
+- [x] Move `src/command/previous-note-candidate-finder/` to `src/command/open-or-create/previous-note-candidate-finder/`
   - This includes all files and the `__tests__/` subdirectory
-- [ ] Update all imports in affected files
-- [ ] Update all imports in test files
-- [ ] Run tests to ensure nothing broke
+- [x] Update all imports in affected files
+- [x] Update all imports in test files
+- [x] Run tests to ensure nothing broke
 
 ### Task 0.2: Move pathSegmentBuilder to open-or-create directory
 
-- [ ] Move `src/command/pathSegmentBuilder.ts` to `src/command/open-or-create/pathSegmentBuilder.ts`
-- [ ] Move `src/command/__tests__/pathSegmentBuilder.test.ts` to `src/command/open-or-create/__tests__/pathSegmentBuilder.test.ts`
-- [ ] Update imports in `src/command/open-or-create/commandCallback.ts`
-- [ ] Update imports in the test file
-- [ ] Run tests to ensure pathSegmentBuilder still works: `bun run test pathSegmentBuilder`
+- [x] Move `src/command/pathSegmentBuilder.ts` to `src/command/open-or-create/pathSegmentBuilder.ts`
+- [x] Move `src/command/__tests__/pathSegmentBuilder.test.ts` to `src/command/open-or-create/__tests__/pathSegmentBuilder.test.ts`
+- [x] Update imports in `src/command/open-or-create/commandCallback.ts`
+- [x] Update imports in the test file
+- [x] Run tests to ensure pathSegmentBuilder still works: `bun run test pathSegmentBuilder`
 
 ### Task 0.3: Create directory structure for new features
 
-- [ ] Create `src/settings/open-or-create/` directory (empty for now, will be used in Phase 5)
-- [ ] Create `src/settings/archive/` directory (empty for now, will be populated in later phases)
-- [ ] Create `src/settings/common/` directory (empty for now, for shared settings utilities)
-- [ ] Create `src/command/archive/` directory (empty for now, will be populated in Phase 2)
+- [x] Create `src/settings/open-or-create/` directory (empty for now, will be used in Phase 5)
+- [x] Create `src/settings/archive/` directory (empty for now, will be populated in later phases)
+- [x] Create `src/settings/common/` directory (empty for now, for shared settings utilities)
+- [x] Create `src/command/archive/` directory (empty for now, will be populated in Phase 2)
 
 ### Task 0.4: Verify refactoring
 
-- [ ] Run full test suite: `bun run test`
-- [ ] Verify all tests pass
-- [ ] Build the plugin
-- [ ] Manually test open-or-create command functionality
+- [x] Run full test suite: `bun run test`
+- [x] Verify all tests pass
+- [x] Build the plugin
+- [ ] Manually review tests, and simplify them
+- [ ] Manually test open-or-create command functionality (pending; requires Obsidian vault)
+
+Notes: Tests and build are currently green after settings refactor; manual open-or-create command check still outstanding.
 
 ## Phase 1: Core Data Model
 

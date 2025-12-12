@@ -1,10 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import {
-	isCommandSettings,
-	isImportedSettings,
-	isObject,
-	isString,
-} from '../../validation/typeGuards'
+import { isCommandSettings, isImportedSettings, isObject, isString } from '../typeGuards'
 
 describe('isString', () => {
 	it('should return true for strings', () => {

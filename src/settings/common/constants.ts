@@ -1,4 +1,4 @@
-import { CreateOrOpenFilePluginSettings } from '../types'
+import { CreateOrOpenFilePluginSettings } from '../../types'
 
 export const DEFAULT_SETTINGS: CreateOrOpenFilePluginSettings = {
 	commandConfigs: [

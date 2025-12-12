@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { VALIDATIONS, validateField } from '../../validation/validateField'
+import { VALIDATIONS, validateField } from '../validateField'
 
 describe('validateField', () => {
 	it('should return undefined when no rules provided', () => {

@@ -1,5 +1,5 @@
-import { PathSegmentBuilder } from '../pathSegmentBuilder'
-import { TimeShift } from '../timeShift'
+import { PathSegmentBuilder } from '../../open-or-create/pathSegmentBuilder'
+import { TimeShift } from '../../open-or-create/timeShift'
 import { TimeShiftUnitDetector } from './timeShiftUnitDetector'
 import { range } from './range'
 

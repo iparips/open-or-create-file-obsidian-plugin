@@ -143,9 +143,14 @@ Design Pattern: Adapter pattern for dependency injection and testing
 
 ### 4. Settings Layer (`src/settings/`)
 
-#### 4.1 Settings Tab (`CreateOrOpenFileSettingsTab.ts`)
+The settings layer is organized into three directories:
+- `common/`: Shared settings infrastructure (validation, hooks, UI components)
+- `open-or-create/`: Open-or-create specific settings components
+- `archive/`: Archive feature settings (future)
 
-Class: `CreateOrOpenFileSettingsTab`
+#### 4.1 Settings Tab (`src/settings/common/SettingsTab.ts`)
+
+Class: `SettingsTab`
 
 Purpose: Obsidian settings UI integration using React
 
@@ -156,34 +161,61 @@ Lifecycle:
 
 React Integration: Uses `react-dom/client` with `createRoot()`
 
-#### 4.2 Settings Component (`components/index.tsx`)
+#### 4.2 Settings Component (`src/settings/common/components/SettingsComponent.tsx`)
 
 Component: `SettingsComponent`
 
-Architecture: React with local state management
+Architecture: React with custom hook for state management
 
-State:
-
-- `localSettings`: In-memory settings copy for UI updates
-- `validationResult`: Real-time validation feedback
+Purpose: Main settings UI entrypoint that wires together child components
 
 Key Features:
-
-- Real-time validation on settings changes
-- Import/Export functionality via `ActionsHeader`
-- Individual command cards via `CommandCard`
-- Validation summary via `ValidationSummary`
-- Settings sync event handling (external changes from Obsidian Sync)
+- Uses `useSettings` hook for state management
+- Delegates to feature-specific components (`OpenOrCreateSettings`)
+- Handles settings import via `ActionsHeader`
 
 Child Components:
+- `ActionsHeader`: Import/Export buttons (shared)
+- `OpenOrCreateSettings`: Open-or-create commands panel
 
-- `ActionsHeader`: Import/Export/Add command buttons
-- `CommandCard`: Individual command configuration UI
-- `SettingInput`: Text input with validation
-- `SettingToggle`: Boolean toggle
-- `ValidationSummary`: Aggregated validation errors
+#### 4.3 Settings Hook (`src/settings/common/hooks/useSettings.ts`)
 
-#### 4.3 Settings Configuration (`configureDefaultsAndValidateSettings.ts`)
+Hook: `useSettings()`
+
+Purpose: Centralized settings state management
+
+Responsibilities:
+- Manages local settings state
+- Handles validation with real-time updates
+- Listens to `settings-reloaded` event for external changes (Obsidian Sync)
+- Provides `updateSettings()` function that updates state and persists to disk
+
+Returns:
+- `settings`: Current settings state
+- `updateSettings`: Function to update and save settings
+- `validationResult`: Current validation state
+
+Benefits:
+- Cleaner than render props pattern
+- State logic reusable across components
+- Easier to test in isolation
+
+#### 4.4 Feature-Specific Settings (`src/settings/open-or-create/components/`)
+
+Component: `OpenOrCreateSettings`
+
+Purpose: UI for managing open-or-create commands
+
+Key Features:
+- Add/update/delete command operations
+- Real-time validation feedback via `ValidationSummary`
+- Individual command cards via `CommandCard`
+
+Child Components:
+- `CommandCard`: Individual command configuration UI with validation errors
+- Uses shared components: `SettingInput`, `SettingToggle`
+
+#### 4.5 Settings Configuration (`src/settings/common/configureDefaultsAndValidateSettings.ts`)
 
 Function: `configureDefaultsAndValidateSettings()`
 
@@ -197,7 +229,9 @@ Flow:
 4. Return validated settings or fallback to defaults
 5. Display notices for validation failures
 
-#### 4.4 Validation System (`utils/validation/`)
+Location rationale: Moved to `common/` because it handles plugin-wide settings initialization, not specific to open-or-create feature
+
+#### 4.6 Validation System (`src/settings/common/validation/`)
 
 Core Files:
 
@@ -277,9 +311,13 @@ Display result notice
 ```
 User edits settings in UI
   ↓
-SettingsComponent: Update local state
+OpenOrCreateSettings: Call add/update/delete handler
   ↓
-SettingsComponent: Call updatePluginSettings()
+Handler calls useSettings.updateSettings()
+  ↓
+useSettings: Updates local state + validates
+  ↓
+useSettings: Calls onSettingsChange (updatePluginSettings)
   ↓
 main.ts: updateSettings() method
   ↓
@@ -295,7 +333,7 @@ Register new commands
   ↓
   Trigger 'settings-reloaded' event
   ↓
-  SettingsComponent: useEffect updates local state
+  useSettings: Event listener updates local state
 ```
 
 ## Key Design Decisions
@@ -349,15 +387,61 @@ Validation logic separated from UI components:
 ### Test Support (`src/test-support/`)
 
 - `__mocks__/obsidian.ts`: Mock Obsidian API for unit tests
+- `builders.ts`: Test data builders (CommandConfigBuilder, SettingsBuilder)
 
 ### Test Organisation
 
-Tests colocated with source code in `__tests__/` directories:
+Tests organized by responsibility, colocated with source code in `__tests__/` directories:
 
-- `command/__tests__/`: Path building and candidate finding
-- `notes/__tests__/`: Note creation logic
-- `settings/__tests__/`: Validation and settings management
-- `settings/components/__tests__/`: React component tests
+**Command layer:**
+- `command/open-or-create/__tests__/`: Path building, time shift parsing, candidate finding
+
+**Notes layer:**
+- `notes/__tests__/`: Note creation and Obsidian adapter
+
+**Settings layer:**
+- `settings/common/__tests__/`: Settings initialization, validation rules
+- `settings/common/hooks/__tests__/`: useSettings hook (state management, event handling)
+- `settings/common/components/__tests__/`: 
+  - `SettingsComponent.test.tsx`: Component wiring smoke test
+  - `ActionsHeader.test.tsx`: Import/export functionality
+- `settings/open-or-create/components/__tests__/`: 
+  - `OpenOrCreateSettings.test.tsx`: Add/update/delete command operations
+
+### Test Strategy
+
+**Component tests** verify:
+- User interactions (button clicks, input changes)
+- Correct props passed to child components
+- Callbacks invoked with expected data
+
+**Hook tests** verify:
+- State management logic
+- Event subscription/cleanup
+- Validation updates
+
+**Unit tests** verify:
+- Business logic (path building, validation)
+- Edge cases and error handling
+
+### Builder Pattern
+
+Test data created using builder pattern (see `src/test-support/builders.ts`):
+- Builders used for **setup** (arrange phase)
+- Plain objects used for **assertions** (for clarity)
+
+Example:
+```typescript
+// Setup: use builder
+const settings = aSettings()
+  .withCommand(aCommand().withCommandName('Test').build())
+  .build()
+
+// Assertion: plain object
+expect(result).toEqual({
+  commandConfigs: [{ commandName: 'New Name', ... }]
+})
+```
 
 ### Testing Libraries
 
@@ -383,26 +467,48 @@ Tests colocated with source code in `__tests__/` directories:
 - eslint/prettier: Code quality
 - @testing-library/react: Component testing
 
-## File Organization
+## File Organisation
 
 ```
 src/
-├── main.ts                      # Plugin entry point
-├── types.ts                     # Shared TypeScript types
-├── command/                     # Command execution logic
-│   ├── commandCallback.ts       # Command handler
-│   ├── pathSegmentBuilder.ts    # Date pattern replacement
-│   ├── timeShift.ts             # Time shift parsing
-│   └── previous-note-candidate-finder/  # Previous note search
-├── notes/                       # Note management
-│   ├── noteCreator.ts           # High-level note operations
-│   └── obsidianAdapter.ts       # Obsidian API abstraction
-├── settings/                    # Settings management
-│   ├── CreateOrOpenFileSettingsTab.ts  # Obsidian settings integration
-│   ├── components/              # React UI components
-│   ├── utils/validation/        # Validation logic
-│   └── configureDefaultsAndValidateSettings.ts
-└── test-support/                # Test utilities
+├── main.ts                               # Plugin entry point
+├── types.ts                              # Shared TypeScript types
+├── command/                              # Command execution logic
+│   └── open-or-create/                   # Open-or-create feature
+│       ├── commandCallback.ts            # Command handler
+│       ├── pathSegmentBuilder.ts         # Date pattern replacement
+│       ├── timeShift.ts                  # Time shift parsing
+│       └── previous-note-candidate-finder/  # Previous note search
+├── notes/                                # Note management
+│   ├── noteCreator.ts                    # High-level note operations
+│   └── obsidianAdapter.ts                # Obsidian API abstraction
+├── settings/                             # Settings management
+│   ├── common/                           # Shared settings infrastructure
+│   │   ├── SettingsTab.ts                # Obsidian settings integration
+│   │   ├── configureDefaultsAndValidateSettings.ts  # Settings init
+│   │   ├── components/                   # Shared UI components
+│   │   │   ├── SettingsComponent.tsx     # Main settings entrypoint
+│   │   │   ├── ActionsHeader.tsx         # Import/Export
+│   │   │   ├── SettingInput.tsx          # Reusable input
+│   │   │   ├── SettingToggle.tsx         # Reusable toggle
+│   │   │   └── ValidationSummary.tsx     # Validation display
+│   │   ├── hooks/                        # React hooks
+│   │   │   └── useSettings.ts            # Settings state management
+│   │   └── validation/                   # Validation logic
+│   │       ├── validateSettings.ts       # Top-level validation
+│   │       ├── validateField.ts          # Field validation rules
+│   │       ├── validationResult.ts       # Result wrapper
+│   │       ├── validations.ts            # Reusable validators
+│   │       └── typeGuards.ts             # Type guards
+│   ├── open-or-create/                   # Open-or-create specific
+│   │   ├── components/
+│   │   │   ├── OpenOrCreateSettings.tsx  # Command list panel
+│   │   │   └── CommandCard.tsx           # Individual command UI
+│   │   └── constants.ts                  # Default settings
+│   └── archive/                          # Archive feature (future)
+└── test-support/                         # Test utilities
+    ├── __mocks__/obsidian.ts             # Obsidian API mocks
+    └── builders.ts                       # Test data builders
 ```
 
 ## Extension Points

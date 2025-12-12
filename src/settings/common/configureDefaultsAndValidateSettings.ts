@@ -1,8 +1,7 @@
 import { Notice } from 'obsidian'
+import type { CommandConfig, CreateOrOpenFilePluginSettings } from '../../types'
 import { DEFAULT_SETTINGS } from './constants'
-import { validateSettings } from './utils/validation/validateSettings'
-import type { CommandConfig, CreateOrOpenFilePluginSettings } from '../types'
-
+import { validateSettings } from './validation/validateSettings'
 const DEFAULT_COMMAND_CONFIG: Partial<CommandConfig> = {
 	usePreviousNoteAsTemplate: false,
 }

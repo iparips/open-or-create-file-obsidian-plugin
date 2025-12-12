@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
-import type { CommandConfig, ValidationError } from '../../types'
-import { SettingInput } from './SettingInput'
-import { SettingToggle } from './SettingToggle'
-import { validateField, VALIDATIONS, type ValidationRule } from '../utils/validation/validateField'
+import type { CommandConfig, ValidationError } from '../../../types'
+import { SettingInput } from '../../common/components/SettingInput'
+import { SettingToggle } from '../../common/components/SettingToggle'
+import {
+	validateField,
+	VALIDATIONS,
+	type ValidationRule,
+} from '../../common/validation/validateField'
 
 interface ValidationErrors {
 	commandName?: string

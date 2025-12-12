@@ -21,6 +21,10 @@ data.json
 # Exclude macOS Finder (System Explorer) View States
 .DS_Store
 
-# Claude
+# AI Assistants
 
 .claude/settings.local.json
+
+.aider*
+
+.gooseignore

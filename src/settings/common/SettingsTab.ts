@@ -2,12 +2,12 @@ import { App, PluginSettingTab, Notice } from 'obsidian'
 import React from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 
-import type CreateOrOpenFilePlugin from '../main'
-import { SettingsComponent } from './components'
-import { CreateOrOpenFilePluginSettings } from '../types'
-import { validateSettings } from './utils/validation/validateSettings'
+import type CreateOrOpenFilePlugin from '../../main'
+import { SettingsComponent } from './components/SettingsComponent'
+import { CreateOrOpenFilePluginSettings } from '../../types'
+import { validateSettings } from './validation/validateSettings'
 
-export class CreateOrOpenFileSettingsTab extends PluginSettingTab {
+export class SettingsTab extends PluginSettingTab {
 	updatePluginSettingsCallback: (newSettings: CreateOrOpenFilePluginSettings) => Promise<void>
 	private root: Root | null = null
 
