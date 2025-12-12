@@ -1,7 +1,7 @@
-import { CommandConfig, CreateOrOpenFilePluginSettings } from '../../types'
+import { OpenOrCreateCommandConfig, CreateOrOpenFilePluginSettings } from '../../types'
 
 export const DEFAULT_SETTINGS: CreateOrOpenFilePluginSettings = {
-	commandConfigs: [
+	openOrCreateCommandConfigs: [
 		{
 			commandName: 'eg: Weekly shopping list',
 			templateFilePath: 'eg: 00 - Meta/Templates/shopping-list-template.md',
@@ -13,7 +13,7 @@ export const DEFAULT_SETTINGS: CreateOrOpenFilePluginSettings = {
 	],
 }
 
-export const EMPTY_COMMAND_CONFIG: CommandConfig = {
+export const EMPTY_COMMAND_CONFIG: OpenOrCreateCommandConfig = {
 	commandName: '',
 	templateFilePath: '',
 	destinationFolderPattern: '',

@@ -131,7 +131,7 @@ describe('isCommandSettings', () => {
 describe('isImportedSettings', () => {
 	it('should return true for valid imported settings', () => {
 		const validData = {
-			commandConfigs: [
+			openOrCreateCommandConfigs: [
 				{
 					commandName: 'test-command-1',
 					templateFilePath: 'template.md',
@@ -150,7 +150,7 @@ describe('isImportedSettings', () => {
 	})
 
 	it('should return true for empty commands array', () => {
-		expect(isImportedSettings({ commandConfigs: [] })).toBe(true)
+		expect(isImportedSettings({ openOrCreateCommandConfigs: [] })).toBe(true)
 	})
 
 	it('should return false for non-objects', () => {
@@ -167,34 +167,34 @@ describe('isImportedSettings', () => {
 	})
 
 	it('should return false for objects with non-array commands', () => {
-		expect(isImportedSettings({ commandConfigs: 'not-array' })).toBe(false)
-		expect(isImportedSettings({ commandConfigs: 123 })).toBe(false)
-		expect(isImportedSettings({ commandConfigs: {} })).toBe(false)
-		expect(isImportedSettings({ commandConfigs: null })).toBe(false)
+		expect(isImportedSettings({ openOrCreateCommandConfigs: 'not-array' })).toBe(false)
+		expect(isImportedSettings({ openOrCreateCommandConfigs: 123 })).toBe(false)
+		expect(isImportedSettings({ openOrCreateCommandConfigs: {} })).toBe(false)
+		expect(isImportedSettings({ openOrCreateCommandConfigs: null })).toBe(false)
 	})
 
 	it('should return false for arrays with invalid commandConfigs', () => {
 		expect(
 			isImportedSettings({
-				commandConfigs: [null],
+				openOrCreateCommandConfigs: [null],
 			}),
 		).toBe(false)
 
 		expect(
 			isImportedSettings({
-				commandConfigs: ['string'],
+				openOrCreateCommandConfigs: ['string'],
 			}),
 		).toBe(false)
 
 		expect(
 			isImportedSettings({
-				commandConfigs: [123],
+				openOrCreateCommandConfigs: [123],
 			}),
 		).toBe(false)
 
 		expect(
 			isImportedSettings({
-				commandConfigs: [
+				openOrCreateCommandConfigs: [
 					{
 						commandName: 'valid-command',
 						templateFilePath: 'template.md',

@@ -1,7 +1,7 @@
 import { describe, expect, it, vi, beforeEach } from 'vitest'
 import { validateSettings } from '../validateSettings'
 import { ValidationResult } from '../validationResult'
-import type { CommandConfig } from '../../../../types'
+import type { OpenOrCreateCommandConfig } from '../../../../types'
 
 // Mock the type guards
 vi.mock('../../validation/typeGuards', () => ({
@@ -19,7 +19,7 @@ function assertResultIsValid(result: ValidationResult) {
 	expect(result.getErrorCount()).toBe(0)
 }
 
-function buildCommandConfig(partialConfig: Partial<CommandConfig> = {}) {
+function buildCommandConfig(partialConfig: Partial<OpenOrCreateCommandConfig> = {}) {
 	return {
 		commandName: 'test-command',
 		templateFilePath: 'template.md',
@@ -40,7 +40,7 @@ describe('validateSettings', () => {
 			vi.mocked(isCommandSettings).mockReturnValue(true)
 
 			const validData = {
-				commandConfigs: [buildCommandConfig()],
+				openOrCreateCommandConfigs: [buildCommandConfig()],
 			}
 
 			const result = validateSettings(validData)
@@ -52,7 +52,7 @@ describe('validateSettings', () => {
 		it('returns valid result for an empty array of commands', () => {
 			vi.mocked(isImportedSettings).mockReturnValue(true)
 
-			const result = validateSettings({ commandConfigs: [] })
+			const result = validateSettings({ openOrCreateCommandConfigs: [] })
 
 			assertResultIsValid(result)
 		})
@@ -64,7 +64,7 @@ describe('validateSettings', () => {
 			vi.mocked(isCommandSettings).mockReturnValue(true)
 
 			const invalidData = {
-				commandConfigs: [buildCommandConfig({ templateFilePath: 'template.txt' })],
+				openOrCreateCommandConfigs: [buildCommandConfig({ templateFilePath: 'template.txt' })],
 			}
 
 			const result = validateSettings(invalidData)
@@ -85,7 +85,7 @@ describe('validateSettings', () => {
 			vi.mocked(isCommandSettings).mockReturnValue(true)
 
 			const invalidData = {
-				commandConfigs: [buildCommandConfig({ fileNamePattern: 'file.txt' })],
+				openOrCreateCommandConfigs: [buildCommandConfig({ fileNamePattern: 'file.txt' })],
 			}
 
 			const result = validateSettings(invalidData)
@@ -107,7 +107,7 @@ describe('validateSettings', () => {
 				vi.mocked(isCommandSettings).mockReturnValue(true)
 
 				const invalidData = {
-					commandConfigs: [buildCommandConfig({ timeShift: 'invalid format' })],
+					openOrCreateCommandConfigs: [buildCommandConfig({ timeShift: 'invalid format' })],
 				}
 
 				const result = validateSettings(invalidData)
@@ -129,7 +129,7 @@ describe('validateSettings', () => {
 				vi.mocked(isCommandSettings).mockReturnValue(true)
 
 				const validData = {
-					commandConfigs: [buildCommandConfig({ timeShift: '+1 day' })],
+					openOrCreateCommandConfigs: [buildCommandConfig({ timeShift: '+1 day' })],
 				}
 
 				const result = validateSettings(validData)
@@ -146,7 +146,7 @@ describe('validateSettings', () => {
 		vi.mocked(isCommandSettings).mockReturnValue(true)
 
 		const invalidData = {
-			commandConfigs: [
+			openOrCreateCommandConfigs: [
 				{
 					commandName: '',
 					destinationFolderPattern: '',
@@ -202,7 +202,7 @@ describe('validateSettings', () => {
 			vi.mocked(isCommandSettings).mockReturnValue(false)
 
 			const invalidData = {
-				commandConfigs: [null],
+				openOrCreateCommandConfigs: [null],
 			}
 
 			const result = validateSettings(invalidData)

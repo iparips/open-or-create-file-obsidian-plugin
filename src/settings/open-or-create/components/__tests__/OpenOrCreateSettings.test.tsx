@@ -3,7 +3,7 @@ import { cleanup, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { OpenOrCreateSettings } from '../OpenOrCreateSettings'
-import type { CommandConfig, CreateOrOpenFilePluginSettings } from '../../../../types'
+import type { OpenOrCreateCommandConfig, CreateOrOpenFilePluginSettings } from '../../../../types'
 import { ValidationResult } from '../../../common/validation/validationResult'
 import { aCommand, aSettings } from '../../../../test-support/builders'
 
@@ -19,9 +19,9 @@ vi.mock('../CommandCard', () => ({
 		onUpdate,
 		onDelete,
 	}: {
-		command: CommandConfig
+		command: OpenOrCreateCommandConfig
 		index: number
-		onUpdate: (index: number, field: keyof CommandConfig, value: string) => void
+		onUpdate: (index: number, field: keyof OpenOrCreateCommandConfig, value: string) => void
 		onDelete: (index: number) => void
 	}) => (
 		<div data-testid={`command-card-${index}`}>
@@ -94,7 +94,7 @@ describe('OpenOrCreateSettings', () => {
 			await user.click(screen.getByText('Add command'))
 
 			expect(mockUpdateSettings).toHaveBeenCalledWith({
-				commandConfigs: [
+				openOrCreateCommandConfigs: [
 					{
 						commandName: '',
 						templateFilePath: '',
@@ -132,7 +132,7 @@ describe('OpenOrCreateSettings', () => {
 			await user.type(input, 'X')
 
 			expect(mockUpdateSettings).toHaveBeenCalledWith({
-				commandConfigs: [
+				openOrCreateCommandConfigs: [
 					{
 						commandName: 'Test Command 1X',
 						templateFilePath: 'template.md',
@@ -167,7 +167,7 @@ describe('OpenOrCreateSettings', () => {
 			await user.click(screen.getByTestId('delete-0'))
 
 			expect(mockUpdateSettings).toHaveBeenCalledWith({
-				commandConfigs: [
+				openOrCreateCommandConfigs: [
 					{
 						commandName: 'Command 2',
 						templateFilePath: 'template.md',

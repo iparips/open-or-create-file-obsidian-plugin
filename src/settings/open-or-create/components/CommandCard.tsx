@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import type { CommandConfig, ValidationError } from '../../../types'
+import type { OpenOrCreateCommandConfig, ValidationError } from '../../../types'
 import { SettingInput } from '../../common/components/SettingInput'
 import { SettingToggle } from '../../common/components/SettingToggle'
 import {
@@ -17,9 +17,9 @@ interface ValidationErrors {
 }
 
 interface CommandCardProps {
-	command: CommandConfig
+	command: OpenOrCreateCommandConfig
 	index: number
-	onUpdate: (index: number, field: keyof CommandConfig, value: string | boolean) => void
+	onUpdate: (index: number, field: keyof OpenOrCreateCommandConfig, value: string | boolean) => void
 	onDelete: (index: number) => void
 	validationErrors?: ValidationError[]
 }
@@ -45,7 +45,11 @@ export const CommandCard: React.FC<CommandCardProps> = ({
 	// Local errors take precedence over prop errors
 	const displayErrors = { ...propErrors, ...localValidationErrors }
 
-	const validate = (field: keyof CommandConfig, value: string, rules: ValidationRule[]) => {
+	const validate = (
+		field: keyof OpenOrCreateCommandConfig,
+		value: string,
+		rules: ValidationRule[],
+	) => {
 		const errorMessage = validateField(rules, value)
 		setLocalValidationErrors((prev: ValidationErrors) => ({ ...prev, [field]: errorMessage }))
 	}

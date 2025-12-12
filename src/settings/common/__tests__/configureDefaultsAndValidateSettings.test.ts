@@ -23,7 +23,7 @@ describe('configureDefaultsAndValidateSettings', () => {
 		it('returns settings when settings are valid', async () => {
 			// Arrange
 			const validSettings: CreateOrOpenFilePluginSettings = {
-				commandConfigs: [
+				openOrCreateCommandConfigs: [
 					{
 						commandName: 'Test Command',
 						templateFilePath: 'template.md',
@@ -47,7 +47,7 @@ describe('configureDefaultsAndValidateSettings', () => {
 		it('defaults usePreviousNoteAsTemplate to false when it is missing', async () => {
 			// Arrange
 			const settingsWithoutField = {
-				commandConfigs: [
+				openOrCreateCommandConfigs: [
 					{
 						commandName: 'Test Command',
 						templateFilePath: 'template.md',
@@ -64,7 +64,7 @@ describe('configureDefaultsAndValidateSettings', () => {
 			const result = await configureDefaultsAndValidateSettings(loadData)
 
 			// Assert
-			expect(result.commandConfigs[0].usePreviousNoteAsTemplate).toBe(false)
+			expect(result.openOrCreateCommandConfigs[0].usePreviousNoteAsTemplate).toBe(false)
 		})
 
 		it('uses default settings when loaded settings are undefined', async () => {
@@ -82,7 +82,7 @@ describe('configureDefaultsAndValidateSettings', () => {
 		it('returns default settings and logs an error when settings are invalid', async () => {
 			// Arrange
 			const invalidSettings: CreateOrOpenFilePluginSettings = {
-				commandConfigs: [
+				openOrCreateCommandConfigs: [
 					{
 						commandName: '',
 						templateFilePath: '',

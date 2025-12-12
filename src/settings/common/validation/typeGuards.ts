@@ -1,4 +1,4 @@
-import type { CommandConfig, CreateOrOpenFilePluginSettings } from '../../../types'
+import type { OpenOrCreateCommandConfig, CreateOrOpenFilePluginSettings } from '../../../types'
 
 export function isString(value: unknown): value is string {
 	return typeof value === 'string'
@@ -8,7 +8,7 @@ export function isObject(value: unknown): value is Record<string, unknown> {
 	return value !== null && typeof value === 'object' && !Array.isArray(value)
 }
 
-export function isCommandSettings(value: unknown): value is CommandConfig {
+export function isCommandSettings(value: unknown): value is OpenOrCreateCommandConfig {
 	if (!isObject(value)) return false
 
 	const { commandName, templateFilePath, destinationFolderPattern, fileNamePattern, timeShift } =
@@ -26,8 +26,8 @@ export function isCommandSettings(value: unknown): value is CommandConfig {
 export function isImportedSettings(value: unknown): value is CreateOrOpenFilePluginSettings {
 	if (!isObject(value)) return false
 
-	const { commandConfigs } = value
-	if (!Array.isArray(commandConfigs)) return false
+	const { openOrCreateCommandConfigs } = value
+	if (!Array.isArray(openOrCreateCommandConfigs)) return false
 
-	return commandConfigs.every(isCommandSettings)
+	return openOrCreateCommandConfigs.every(isCommandSettings)
 }

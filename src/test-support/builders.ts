@@ -1,7 +1,7 @@
-import type { CommandConfig, CreateOrOpenFilePluginSettings } from '../types'
+import type { OpenOrCreateCommandConfig, CreateOrOpenFilePluginSettings } from '../types'
 
 export class CommandConfigBuilder {
-	private config: CommandConfig = {
+	private config: OpenOrCreateCommandConfig = {
 		commandName: 'Test Command',
 		templateFilePath: 'template.md',
 		destinationFolderPattern: 'folder',
@@ -40,26 +40,26 @@ export class CommandConfigBuilder {
 		return this
 	}
 
-	build(): CommandConfig {
+	build(): OpenOrCreateCommandConfig {
 		return { ...this.config }
 	}
 }
 
 export class SettingsBuilder {
-	private commands: CommandConfig[] = []
+	private commands: OpenOrCreateCommandConfig[] = []
 
-	withCommand(command: CommandConfig): this {
+	withCommand(command: OpenOrCreateCommandConfig): this {
 		this.commands.push(command)
 		return this
 	}
 
-	withCommands(commands: CommandConfig[]): this {
+	withCommands(commands: OpenOrCreateCommandConfig[]): this {
 		this.commands = [...commands]
 		return this
 	}
 
 	build(): CreateOrOpenFilePluginSettings {
-		return { commandConfigs: [...this.commands] }
+		return { openOrCreateCommandConfigs: [...this.commands] }
 	}
 }
 

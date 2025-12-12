@@ -1,7 +1,7 @@
 import { Notice } from 'obsidian'
 import { NoteCreator } from '../../notes/noteCreator'
 import { ObsidianAdapter } from '../../notes/obsidianAdapter'
-import { CommandConfig } from '../../types'
+import { OpenOrCreateCommandConfig } from '../../types'
 import { PathSegmentBuilder } from './pathSegmentBuilder'
 import { PreviousNoteCandidatesFinder } from './previous-note-candidate-finder'
 import { TimeShift, TimeShiftParser } from './timeShift'
@@ -39,7 +39,7 @@ function resolveTemplatePath(
 
 export function createOrOpenFileCommandCallback(
 	obsidianAdapter: ObsidianAdapter,
-	commandConfig: CommandConfig,
+	commandConfig: OpenOrCreateCommandConfig,
 ) {
 	return async () => {
 		const {

@@ -1,16 +1,16 @@
-import type { CommandConfig, ValidationError } from '../../../types'
+import type { OpenOrCreateCommandConfig, ValidationError } from '../../../types'
 import { validateField, VALIDATIONS, type ValidationRule } from './validateField'
 import { isCommandSettings, isImportedSettings } from './typeGuards'
 import { ValidationResult } from './validationResult'
 
 export interface FieldValidation {
-	field: keyof CommandConfig
+	field: keyof OpenOrCreateCommandConfig
 	fieldDisplayName: string
 	value: string | undefined
 	rules: ValidationRule[]
 }
 
-const buildFieldValidations = (command: CommandConfig): FieldValidation[] => {
+const buildFieldValidations = (command: OpenOrCreateCommandConfig): FieldValidation[] => {
 	return [
 		{
 			field: 'commandName',
@@ -81,6 +81,8 @@ export const validateSettings = (data: unknown): ValidationResult => {
 			{ field: 'root', fieldDisplayName: 'Settings', message: 'Invalid data format' },
 		])
 	}
-	const errors = data.commandConfigs.flatMap((command, index) => validateCommand(command, index))
+	const errors = data.openOrCreateCommandConfigs.flatMap((command, index) =>
+		validateCommand(command, index),
+	)
 	return new ValidationResult(errors)
 }

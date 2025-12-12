@@ -2,7 +2,7 @@ import { debounce, Events, Notice, Plugin } from 'obsidian'
 import { SettingsTab } from './settings/common/SettingsTab'
 import { createOrOpenFileCommandCallback } from './command/open-or-create/commandCallback'
 import { ObsidianAdapter } from './notes/obsidianAdapter'
-import { CommandConfig, CreateOrOpenFilePluginSettings } from './types'
+import { OpenOrCreateCommandConfig, CreateOrOpenFilePluginSettings } from './types'
 import { configureDefaultsAndValidateSettings } from './settings/common/configureDefaultsAndValidateSettings'
 
 export default class CreateOrOpenFilePlugin extends Plugin {
@@ -13,7 +13,7 @@ export default class CreateOrOpenFilePlugin extends Plugin {
 	private debouncedReload = debounce(
 		async () => {
 			this.settings = await configureDefaultsAndValidateSettings(() => this.loadData())
-			this.registerCommands(this.settings.commandConfigs)
+			this.registerCommands(this.settings.openOrCreateCommandConfigs)
 			this.settingsEvents.trigger('settings-reloaded', this.settings)
 			new Notice('Settings updated from external.')
 		},
@@ -23,7 +23,7 @@ export default class CreateOrOpenFilePlugin extends Plugin {
 
 	async onload() {
 		this.settings = await configureDefaultsAndValidateSettings(() => this.loadData())
-		this.registerCommands(this.settings.commandConfigs)
+		this.registerCommands(this.settings.openOrCreateCommandConfigs)
 
 		// bind this so that "this" reference inside update updateSettings points to MyPlugin.
 		this.addSettingTab(
@@ -40,13 +40,13 @@ export default class CreateOrOpenFilePlugin extends Plugin {
 		this.debouncedReload()
 	}
 
-	private registerCommands(commandConfigs: CommandConfig[]): void {
+	private registerCommands(commandConfigs: OpenOrCreateCommandConfig[]): void {
 		// Only unregister if we've previously registered commands
 		if (this.hasRegisteredCommands) {
 			this.unregisterCommands()
 		}
 
-		commandConfigs.forEach((config: CommandConfig, index: number) => {
+		commandConfigs.forEach((config: OpenOrCreateCommandConfig, index: number) => {
 			this.addCommand({
 				id: `${index}`,
 				name: config.commandName,
@@ -71,6 +71,6 @@ export default class CreateOrOpenFilePlugin extends Plugin {
 	): Promise<void> {
 		this.settings = newSettings
 		await this.saveData(newSettings) // write to data.json
-		this.registerCommands(newSettings.commandConfigs)
+		this.registerCommands(newSettings.openOrCreateCommandConfigs)
 	}
 }

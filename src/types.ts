@@ -20,7 +20,7 @@ export interface ValidationError {
 }
 
 // Command settings types
-export interface CommandConfig {
+export interface OpenOrCreateCommandConfig {
 	commandName: string
 	templateFilePath?: string
 	destinationFolderPattern: string
@@ -30,5 +30,5 @@ export interface CommandConfig {
 }
 
 export interface CreateOrOpenFilePluginSettings {
-	commandConfigs: CommandConfig[]
+	openOrCreateCommandConfigs: OpenOrCreateCommandConfig[]
 }
