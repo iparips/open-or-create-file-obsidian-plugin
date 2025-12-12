@@ -1,8 +1,8 @@
 import React from 'react'
-import type { OpenOrCreateCommandConfig, CreateOrOpenFilePluginSettings } from '../../../types'
+import type { OpenOrCreateCommandConfig } from '../../../types'
+import { CreateOrOpenFilePluginSettings } from '../../models/CreateOrOpenFilePluginSettings'
 import { CommandCard } from './CommandCard'
 import type { ValidationResult } from '../../common/validation/validationResult'
-import { EMPTY_COMMAND_CONFIG } from '../../common/constants'
 
 interface OpenOrCreateSettingsProps {
 	settings: CreateOrOpenFilePluginSettings
@@ -20,27 +20,20 @@ export const OpenOrCreateSettings: React.FC<OpenOrCreateSettingsProps> = ({
 		commandKey: keyof OpenOrCreateCommandConfig,
 		newValue: string | boolean,
 	) => {
-		const newSettings = {
-			...settings,
-			openOrCreateCommandConfigs: settings.openOrCreateCommandConfigs.map((config, i) =>
-				i === index ? { ...config, [commandKey]: newValue } : config,
-			),
-		}
+		const newSettings = CreateOrOpenFilePluginSettings.fromJSON(settings.toJSON())
+		newSettings.updateOpenOrCreateCommand(index, commandKey, newValue)
 		await updateSettingsAndTriggerValidation(newSettings)
 	}
 
 	const deleteCommand = async (index: number) => {
-		const newSettings = { ...settings }
-		newSettings.openOrCreateCommandConfigs.splice(index, 1)
+		const newSettings = CreateOrOpenFilePluginSettings.fromJSON(settings.toJSON())
+		newSettings.deleteOpenOrCreateCommand(index)
 		await updateSettingsAndTriggerValidation(newSettings)
 	}
 
 	const addCommand = async () => {
-		const newSettings = { ...settings }
-		newSettings.openOrCreateCommandConfigs = [
-			EMPTY_COMMAND_CONFIG,
-			...newSettings.openOrCreateCommandConfigs,
-		]
+		const newSettings = CreateOrOpenFilePluginSettings.fromJSON(settings.toJSON())
+		newSettings.addOpenOrCreateCommand()
 		await updateSettingsAndTriggerValidation(newSettings)
 	}
 
@@ -49,7 +42,7 @@ export const OpenOrCreateSettings: React.FC<OpenOrCreateSettingsProps> = ({
 			<div className="button-container" data-plugin="open-or-create-file">
 				<button onClick={addCommand}>Add command</button>
 			</div>
-			{settings.openOrCreateCommandConfigs.map((command: OpenOrCreateCommandConfig, index) => (
+			{settings.getOpenOrCreateCommandConfigs().map((command: OpenOrCreateCommandConfig, index) => (
 				<CommandCard
 					key={index}
 					command={command}

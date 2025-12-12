@@ -29,6 +29,6 @@ export interface OpenOrCreateCommandConfig {
 	usePreviousNoteAsTemplate?: boolean
 }
 
-export interface CreateOrOpenFilePluginSettings {
+export interface CreateOrOpenFilePluginSettingsJSON {
 	openOrCreateCommandConfigs: OpenOrCreateCommandConfig[]
 }

@@ -1,11 +1,11 @@
-import { App, PluginSettingTab, Notice } from 'obsidian'
+import { App, Notice, PluginSettingTab } from 'obsidian'
 import React from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 
 import type CreateOrOpenFilePlugin from '../../main'
 import { SettingsLayout } from './components/SettingsLayout'
-import { CreateOrOpenFilePluginSettings } from '../../types'
 import { validateSettings } from './validation/validateSettings'
+import { CreateOrOpenFilePluginSettings } from '../models/CreateOrOpenFilePluginSettings'
 
 export class SettingsTab extends PluginSettingTab {
 	saveSettingsAndRegisterCommands: (newSettings: CreateOrOpenFilePluginSettings) => Promise<void>
@@ -39,7 +39,9 @@ export class SettingsTab extends PluginSettingTab {
 	}
 
 	hide(): void {
-		const validationResult = validateSettings((this.plugin as CreateOrOpenFilePlugin).settings)
+		const validationResult = validateSettings(
+			(this.plugin as CreateOrOpenFilePlugin).settings.toJSON(),
+		)
 		if (!validationResult.isValid) {
 			new Notice(`Please fill out the required settings for the new command to work`, 10000)
 		}

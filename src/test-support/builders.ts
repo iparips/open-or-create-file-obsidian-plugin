@@ -1,4 +1,6 @@
-import type { OpenOrCreateCommandConfig, CreateOrOpenFilePluginSettings } from '../types'
+import type { OpenOrCreateCommandConfig } from '../types'
+import { CreateOrOpenFilePluginSettings } from '../settings/models/CreateOrOpenFilePluginSettings'
+import { OpenOrCreateCommandConfiguration } from '../settings/models/OpenOrCreateCommandConfiguration'
 
 export class CommandConfigBuilder {
 	private config: OpenOrCreateCommandConfig = {
@@ -59,7 +61,8 @@ export class SettingsBuilder {
 	}
 
 	build(): CreateOrOpenFilePluginSettings {
-		return { openOrCreateCommandConfigs: [...this.commands] }
+		const configuration = new OpenOrCreateCommandConfiguration([...this.commands])
+		return new CreateOrOpenFilePluginSettings(configuration)
 	}
 }
 

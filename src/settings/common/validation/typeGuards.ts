@@ -1,4 +1,4 @@
-import type { OpenOrCreateCommandConfig, CreateOrOpenFilePluginSettings } from '../../../types'
+import type { OpenOrCreateCommandConfig, CreateOrOpenFilePluginSettingsJSON } from '../../../types'
 
 export function isString(value: unknown): value is string {
 	return typeof value === 'string'
@@ -23,7 +23,7 @@ export function isCommandSettings(value: unknown): value is OpenOrCreateCommandC
 	)
 }
 
-export function isImportedSettings(value: unknown): value is CreateOrOpenFilePluginSettings {
+export function isImportedSettings(value: unknown): value is CreateOrOpenFilePluginSettingsJSON {
 	if (!isObject(value)) return false
 
 	const { openOrCreateCommandConfigs } = value

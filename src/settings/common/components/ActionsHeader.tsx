@@ -1,17 +1,21 @@
 import React from 'react'
 import { saveAs } from 'file-saver'
 import { useFilePicker } from 'use-file-picker'
-import { processImportedSettings } from './ActionsHeader.utils'
-import type { CreateOrOpenFilePluginSettings, SelectedFiles } from '../../../types'
+import type { SelectedFiles } from '../../../types'
+import { CreateOrOpenFilePluginSettings } from '../../models/CreateOrOpenFilePluginSettings'
+import { parseSettings } from '../parseSettings'
 
 interface ActionsHeaderProps {
 	settings: CreateOrOpenFilePluginSettings
-	onSettingsImported: (settings: CreateOrOpenFilePluginSettings) => Promise<void>
+	updateSettingsAndTriggerValidation: (settings: CreateOrOpenFilePluginSettings) => Promise<void>
 }
 
-export const ActionsHeader: React.FC<ActionsHeaderProps> = ({ settings, onSettingsImported }) => {
+export const ActionsHeader: React.FC<ActionsHeaderProps> = ({
+	settings,
+	updateSettingsAndTriggerValidation,
+}) => {
 	const exportSettings = (): void => {
-		const dataStr: string = JSON.stringify(settings, null, 2)
+		const dataStr: string = JSON.stringify(settings.toJSON(), null, 2)
 		const blob: Blob = new Blob([dataStr], { type: 'application/json' })
 		saveAs(blob, 'open-or-create-file-settings.json')
 	}
@@ -20,8 +24,16 @@ export const ActionsHeader: React.FC<ActionsHeaderProps> = ({ settings, onSettin
 		accept: '.json',
 		multiple: false,
 		readAs: 'Text',
-		onFilesSuccessfullySelected: (selectedFiles: SelectedFiles<string>) =>
-			processImportedSettings(selectedFiles, onSettingsImported),
+		onFilesSuccessfullySelected: async (selectedFiles: SelectedFiles<string>) => {
+			const settings = await parseSettings(async () => {
+				return JSON.parse(selectedFiles.filesContent[0].content)
+			})
+
+			// Only update if validation passed (parseSettings returns DEFAULT on failure)
+			if (settings !== CreateOrOpenFilePluginSettings.DEFAULT) {
+				await updateSettingsAndTriggerValidation(settings)
+			}
+		},
 	})
 
 	return (

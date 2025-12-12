@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { Events } from 'obsidian'
-import type { CreateOrOpenFilePluginSettings } from '../../../types'
+import { CreateOrOpenFilePluginSettings } from '../../models/CreateOrOpenFilePluginSettings'
 import { ValidationResult } from '../validation/validationResult'
 import { validateSettings } from '../validation/validateSettings'
 
@@ -23,7 +23,7 @@ export function useSettings({
 }: UseSettingsProps): UseSettingsResult {
 	const [settings, setSettings] = useState<CreateOrOpenFilePluginSettings>(initialSettings)
 	const [validationResult, setValidationResult] = useState<ValidationResult>(() =>
-		validateSettings(initialSettings),
+		validateSettings(initialSettings.toJSON()),
 	)
 
 	// Handle external settings changes (e.g., from Obsidian Sync)
@@ -31,7 +31,7 @@ export function useSettings({
 	useEffect(() => {
 		const handleSettingsReloaded = (newSettings: CreateOrOpenFilePluginSettings) => {
 			setSettings(newSettings)
-			setValidationResult(validateSettings(newSettings))
+			setValidationResult(validateSettings(newSettings.toJSON()))
 		}
 
 		const eventRef = settingsEvents.on(
@@ -46,7 +46,7 @@ export function useSettings({
 
 	// Re-validate when settings change
 	useEffect(() => {
-		setValidationResult(validateSettings(settings))
+		setValidationResult(validateSettings(settings.toJSON()))
 	}, [settings])
 
 	const updateSettings = async (newSettings: CreateOrOpenFilePluginSettings) => {

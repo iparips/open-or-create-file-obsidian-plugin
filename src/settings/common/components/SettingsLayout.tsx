@@ -1,11 +1,11 @@
 import React from 'react'
-import type { CreateOrOpenFilePluginSettings } from '../../../types'
 import type { Events } from 'obsidian'
 
 import { useSettings } from '../hooks/useSettings'
 import { ActionsHeader } from './ActionsHeader'
 import { ValidationSummary } from './ValidationSummary'
 import { OpenOrCreateSettings } from '../../open-or-create/components/OpenOrCreateSettings'
+import { CreateOrOpenFilePluginSettings } from '../../models/CreateOrOpenFilePluginSettings'
 
 interface SettingsComponentProps {
 	settings: CreateOrOpenFilePluginSettings
@@ -26,7 +26,10 @@ export const SettingsLayout: React.FC<SettingsComponentProps> = ({
 
 	return (
 		<div className="plugin-settings" data-plugin="open-or-create-file">
-			<ActionsHeader settings={settings} onSettingsImported={updateSettingsAndTriggerValidation} />
+			<ActionsHeader
+				settings={settings}
+				updateSettingsAndTriggerValidation={updateSettingsAndTriggerValidation}
+			/>
 			<ValidationSummary validationResult={validationResult} />
 			<OpenOrCreateSettings
 				settings={settings}

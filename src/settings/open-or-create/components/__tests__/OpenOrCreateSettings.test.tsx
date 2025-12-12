@@ -3,7 +3,8 @@ import { cleanup, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { OpenOrCreateSettings } from '../OpenOrCreateSettings'
-import type { OpenOrCreateCommandConfig, CreateOrOpenFilePluginSettings } from '../../../../types'
+import type { OpenOrCreateCommandConfig } from '../../../../types'
+import { CreateOrOpenFilePluginSettings } from '../../../models/CreateOrOpenFilePluginSettings'
 import { ValidationResult } from '../../../common/validation/validationResult'
 import { aCommand, aSettings } from '../../../../test-support/builders'
 
@@ -47,7 +48,8 @@ describe('OpenOrCreateSettings', () => {
 		mockSettings = aSettings()
 			.withCommand(aCommand().withCommandName('Test Command 1').build())
 			.build()
-		mockValidationResult = new ValidationResult([])
+		const settingsJSON = mockSettings.toJSON()
+		mockValidationResult = new ValidationResult([], settingsJSON)
 	})
 
 	afterEach(() => {
@@ -93,7 +95,9 @@ describe('OpenOrCreateSettings', () => {
 
 			await user.click(screen.getByText('Add command'))
 
-			expect(mockUpdateSettings).toHaveBeenCalledWith({
+			const calls = mockUpdateSettings.mock.calls
+			expect(calls.length).toBe(1)
+			expect(calls[0][0].toJSON()).toEqual({
 				openOrCreateCommandConfigs: [
 					{
 						commandName: '',
@@ -131,7 +135,9 @@ describe('OpenOrCreateSettings', () => {
 			const input = screen.getByTestId('command-name-0')
 			await user.type(input, 'X')
 
-			expect(mockUpdateSettings).toHaveBeenCalledWith({
+			const calls = mockUpdateSettings.mock.calls
+			expect(calls.length).toBe(1)
+			expect(calls[0][0].toJSON()).toEqual({
 				openOrCreateCommandConfigs: [
 					{
 						commandName: 'Test Command 1X',
@@ -166,7 +172,9 @@ describe('OpenOrCreateSettings', () => {
 
 			await user.click(screen.getByTestId('delete-0'))
 
-			expect(mockUpdateSettings).toHaveBeenCalledWith({
+			const calls = mockUpdateSettings.mock.calls
+			expect(calls.length).toBe(1)
+			expect(calls[0][0].toJSON()).toEqual({
 				openOrCreateCommandConfigs: [
 					{
 						commandName: 'Command 2',

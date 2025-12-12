@@ -1,23 +1,13 @@
-import { describe, expect, it, vi, beforeEach } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { validateSettings } from '../validateSettings'
-import { ValidationResult } from '../validationResult'
 import type { OpenOrCreateCommandConfig } from '../../../../types'
+import { isCommandSettings, isImportedSettings } from '../typeGuards'
 
 // Mock the type guards
 vi.mock('../../validation/typeGuards', () => ({
 	isCommandSettings: vi.fn(),
 	isImportedSettings: vi.fn(),
 }))
-
-import { isCommandSettings, isImportedSettings } from '../typeGuards'
-
-function assertResultIsValid(result: ValidationResult) {
-	expect(result).toBeInstanceOf(ValidationResult)
-	expect(result.isValid).toBe(true)
-	expect(result.errors).toEqual([])
-	expect(result.hasErrors()).toBe(false)
-	expect(result.getErrorCount()).toBe(0)
-}
 
 function buildCommandConfig(partialConfig: Partial<OpenOrCreateCommandConfig> = {}) {
 	return {
@@ -46,7 +36,9 @@ describe('validateSettings', () => {
 			const result = validateSettings(validData)
 
 			expect(isImportedSettings).toHaveBeenCalledWith(validData)
-			assertResultIsValid(result)
+			expect(result.isValid).toBe(true)
+			expect(result.errors).toEqual([])
+			expect(result.settings.getOpenOrCreateCommandConfigs()).toHaveLength(1)
 		})
 
 		it('returns valid result for an empty array of commands', () => {
@@ -54,7 +46,9 @@ describe('validateSettings', () => {
 
 			const result = validateSettings({ openOrCreateCommandConfigs: [] })
 
-			assertResultIsValid(result)
+			expect(result.isValid).toBe(true)
+			expect(result.errors).toEqual([])
+			expect(result.settings.getOpenOrCreateCommandConfigs()).toHaveLength(0)
 		})
 	})
 
@@ -69,7 +63,6 @@ describe('validateSettings', () => {
 
 			const result = validateSettings(invalidData)
 
-			expect(result).toBeInstanceOf(ValidationResult)
 			expect(result.isValid).toBe(false)
 			expect(result.errors).toHaveLength(1)
 			expect(result.errors[0]).toEqual({
@@ -90,7 +83,6 @@ describe('validateSettings', () => {
 
 			const result = validateSettings(invalidData)
 
-			expect(result).toBeInstanceOf(ValidationResult)
 			expect(result.isValid).toBe(false)
 			expect(result.errors).toHaveLength(1)
 			expect(result.errors[0]).toEqual({
@@ -112,7 +104,6 @@ describe('validateSettings', () => {
 
 				const result = validateSettings(invalidData)
 
-				expect(result).toBeInstanceOf(ValidationResult)
 				expect(result.isValid).toBe(false)
 				expect(result.errors).toHaveLength(1)
 				expect(result.errors[0]).toEqual({
@@ -134,7 +125,6 @@ describe('validateSettings', () => {
 
 				const result = validateSettings(validData)
 
-				expect(result).toBeInstanceOf(ValidationResult)
 				expect(result.isValid).toBe(true)
 				expect(result.errors).toHaveLength(0)
 			})
@@ -157,10 +147,8 @@ describe('validateSettings', () => {
 
 		const result = validateSettings(invalidData)
 
-		expect(result).toBeInstanceOf(ValidationResult)
 		expect(result.isValid).toBe(false)
 		expect(result.errors).toHaveLength(3)
-
 		expect(result.errors[0]).toEqual({
 			field: 'commandName',
 			fieldDisplayName: 'Command name',
@@ -187,14 +175,11 @@ describe('validateSettings', () => {
 
 			const result = validateSettings(null)
 
-			expect(result).toBeInstanceOf(ValidationResult)
 			expect(result.isValid).toBe(false)
+			expect(isImportedSettings).toHaveBeenCalledWith(null)
 			expect(result.errors).toEqual([
 				{ field: 'root', fieldDisplayName: 'Settings', message: 'Invalid data format' },
 			])
-			expect(result.hasErrors()).toBe(true)
-			expect(result.getErrorCount()).toBe(1)
-			expect(isImportedSettings).toHaveBeenCalledWith(null)
 		})
 
 		it('returns error when commandSettings object has incorrect shape', () => {
@@ -207,10 +192,8 @@ describe('validateSettings', () => {
 
 			const result = validateSettings(invalidData)
 
-			expect(result).toBeInstanceOf(ValidationResult)
 			expect(result.isValid).toBe(false)
 			expect(result.errors).toHaveLength(1)
-
 			expect(result.errors[0]).toEqual({
 				field: 'command',
 				fieldDisplayName: 'Command',

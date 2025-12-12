@@ -2,8 +2,9 @@ import { debounce, Events, Notice, Plugin } from 'obsidian'
 import { SettingsTab } from './settings/common/SettingsTab'
 import { createOrOpenFileCommandCallback } from './command/open-or-create/commandCallback'
 import { ObsidianAdapter } from './notes/obsidianAdapter'
-import { OpenOrCreateCommandConfig, CreateOrOpenFilePluginSettings } from './types'
-import { configureDefaultsAndValidateSettings } from './settings/common/configureDefaultsAndValidateSettings'
+import { OpenOrCreateCommandConfig } from './types'
+import { CreateOrOpenFilePluginSettings } from './settings/models/CreateOrOpenFilePluginSettings'
+import { parseSettings } from './settings/common/parseSettings'
 
 export default class CreateOrOpenFilePlugin extends Plugin {
 	settings!: CreateOrOpenFilePluginSettings
@@ -12,8 +13,8 @@ export default class CreateOrOpenFilePlugin extends Plugin {
 
 	private debouncedReload = debounce(
 		async () => {
-			this.settings = await configureDefaultsAndValidateSettings(() => this.loadData())
-			this.registerCommands(this.settings.openOrCreateCommandConfigs)
+			this.settings = await parseSettings(() => this.loadData())
+			this.registerCommands(this.settings.getOpenOrCreateCommandConfigs())
 			this.settingsEvents.trigger('settings-reloaded', this.settings)
 			new Notice('Settings updated from external.')
 		},
@@ -22,8 +23,8 @@ export default class CreateOrOpenFilePlugin extends Plugin {
 	)
 
 	async onload() {
-		this.settings = await configureDefaultsAndValidateSettings(() => this.loadData())
-		this.registerCommands(this.settings.openOrCreateCommandConfigs)
+		this.settings = await parseSettings(() => this.loadData())
+		this.registerCommands(this.settings.getOpenOrCreateCommandConfigs())
 
 		// bind this so that "this" reference inside update updateSettings points to MyPlugin.
 		this.addSettingTab(
@@ -70,7 +71,7 @@ export default class CreateOrOpenFilePlugin extends Plugin {
 		newSettings: CreateOrOpenFilePluginSettings,
 	): Promise<void> {
 		this.settings = newSettings
-		await this.saveData(newSettings) // write to data.json
-		this.registerCommands(newSettings.openOrCreateCommandConfigs)
+		await this.saveData(newSettings.toJSON()) // write to data.json
+		this.registerCommands(newSettings.getOpenOrCreateCommandConfigs())
 	}
 }

@@ -1,6 +1,6 @@
-import { OpenOrCreateCommandConfig, CreateOrOpenFilePluginSettings } from '../../types'
+import { OpenOrCreateCommandConfig, CreateOrOpenFilePluginSettingsJSON } from '../../types'
 
-export const DEFAULT_SETTINGS: CreateOrOpenFilePluginSettings = {
+export const DEFAULT_SETTINGS_JSON: CreateOrOpenFilePluginSettingsJSON = {
 	openOrCreateCommandConfigs: [
 		{
 			commandName: 'eg: Weekly shopping list',

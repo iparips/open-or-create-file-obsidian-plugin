@@ -31,7 +31,8 @@ vi.mock('use-file-picker', () => ({
 										.withFileName('imported-file.md')
 										.build(),
 								)
-								.build(),
+								.build()
+								.toJSON(),
 						),
 					},
 				],
@@ -58,7 +59,12 @@ describe('ActionsHeader', () => {
 	})
 
 	it('renders import and export buttons', () => {
-		render(<ActionsHeader settings={mockSettings} onSettingsImported={mockOnSettingsImported} />)
+		render(
+			<ActionsHeader
+				settings={mockSettings}
+				updateSettingsAndTriggerValidation={mockOnSettingsImported}
+			/>,
+		)
 
 		expect(screen.getByText('Import settings')).toBeDefined()
 		expect(screen.getByText('Export settings')).toBeDefined()
@@ -68,7 +74,12 @@ describe('ActionsHeader', () => {
 		it('exports settings as JSON when export button is clicked', async () => {
 			const user = userEvent.setup()
 
-			render(<ActionsHeader settings={mockSettings} onSettingsImported={mockOnSettingsImported} />)
+			render(
+				<ActionsHeader
+					settings={mockSettings}
+					updateSettingsAndTriggerValidation={mockOnSettingsImported}
+				/>,
+			)
 
 			await user.click(screen.getByText('Export settings'))
 
@@ -80,7 +91,12 @@ describe('ActionsHeader', () => {
 		it('opens file picker when import button is clicked', async () => {
 			const user = userEvent.setup()
 
-			render(<ActionsHeader settings={mockSettings} onSettingsImported={mockOnSettingsImported} />)
+			render(
+				<ActionsHeader
+					settings={mockSettings}
+					updateSettingsAndTriggerValidation={mockOnSettingsImported}
+				/>,
+			)
 
 			await user.click(screen.getByText('Import settings'))
 
@@ -90,22 +106,28 @@ describe('ActionsHeader', () => {
 		it('calls onSettingsImported with parsed settings when valid file is selected', async () => {
 			const user = userEvent.setup()
 
-			render(<ActionsHeader settings={mockSettings} onSettingsImported={mockOnSettingsImported} />)
+			render(
+				<ActionsHeader
+					settings={mockSettings}
+					updateSettingsAndTriggerValidation={mockOnSettingsImported}
+				/>,
+			)
 
 			await user.click(screen.getByText('Import settings'))
 
-			expect(mockOnSettingsImported).toHaveBeenCalledWith(
-				aSettings()
-					.withCommand(
-						aCommand()
-							.withCommandName('Imported Command')
-							.withTemplatePath('imported.md')
-							.withDestinationFolder('imported-folder')
-							.withFileName('imported-file.md')
-							.build(),
-					)
-					.build(),
-			)
+			const expectedSettings = aSettings()
+				.withCommand(
+					aCommand()
+						.withCommandName('Imported Command')
+						.withTemplatePath('imported.md')
+						.withDestinationFolder('imported-folder')
+						.withFileName('imported-file.md')
+						.build(),
+				)
+				.build()
+
+			expect(mockOnSettingsImported).toHaveBeenCalledTimes(1)
+			expect(mockOnSettingsImported.mock.calls[0][0].toJSON()).toEqual(expectedSettings.toJSON())
 		})
 	})
 })
