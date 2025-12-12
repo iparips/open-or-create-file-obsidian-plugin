@@ -1,18 +1,18 @@
 import React from 'react'
 import type { CommandConfig, CreateOrOpenFilePluginSettings } from '../../../types'
-import { ValidationSummary } from '../../common/components/ValidationSummary'
 import { CommandCard } from './CommandCard'
 import type { ValidationResult } from '../../common/validation/validationResult'
+import { EMPTY_COMMAND_CONFIG } from '../../common/constants'
 
 interface OpenOrCreateSettingsProps {
 	settings: CreateOrOpenFilePluginSettings
-	updateSettings: (newSettings: CreateOrOpenFilePluginSettings) => Promise<void>
+	updateSettingsAndTriggerValidation: (newSettings: CreateOrOpenFilePluginSettings) => Promise<void>
 	validationResult: ValidationResult
 }
 
 export const OpenOrCreateSettings: React.FC<OpenOrCreateSettingsProps> = ({
 	settings,
-	updateSettings,
+	updateSettingsAndTriggerValidation,
 	validationResult,
 }) => {
 	const updateCommand = async (
@@ -26,29 +26,19 @@ export const OpenOrCreateSettings: React.FC<OpenOrCreateSettingsProps> = ({
 				i === index ? { ...config, [commandKey]: newValue } : config,
 			),
 		}
-		await updateSettings(newSettings)
+		await updateSettingsAndTriggerValidation(newSettings)
 	}
 
 	const deleteCommand = async (index: number) => {
 		const newSettings = { ...settings }
 		newSettings.commandConfigs.splice(index, 1)
-		await updateSettings(newSettings)
+		await updateSettingsAndTriggerValidation(newSettings)
 	}
 
 	const addCommand = async () => {
 		const newSettings = { ...settings }
-		newSettings.commandConfigs = [
-			{
-				commandName: '',
-				templateFilePath: '',
-				destinationFolderPattern: '',
-				fileNamePattern: '',
-				timeShift: '',
-				usePreviousNoteAsTemplate: false,
-			},
-			...newSettings.commandConfigs,
-		]
-		await updateSettings(newSettings)
+		newSettings.commandConfigs = [EMPTY_COMMAND_CONFIG, ...newSettings.commandConfigs]
+		await updateSettingsAndTriggerValidation(newSettings)
 	}
 
 	return (
@@ -56,7 +46,6 @@ export const OpenOrCreateSettings: React.FC<OpenOrCreateSettingsProps> = ({
 			<div className="button-container" data-plugin="open-or-create-file">
 				<button onClick={addCommand}>Add command</button>
 			</div>
-			<ValidationSummary validationResult={validationResult} />
 			{settings.commandConfigs.map((command: CommandConfig, index) => (
 				<CommandCard
 					key={index}

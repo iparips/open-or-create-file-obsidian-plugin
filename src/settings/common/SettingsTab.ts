@@ -8,16 +8,16 @@ import { CreateOrOpenFilePluginSettings } from '../../types'
 import { validateSettings } from './validation/validateSettings'
 
 export class SettingsTab extends PluginSettingTab {
-	updatePluginSettingsCallback: (newSettings: CreateOrOpenFilePluginSettings) => Promise<void>
+	saveSettingsAndRegisterCommands: (newSettings: CreateOrOpenFilePluginSettings) => Promise<void>
 	private root: Root | null = null
 
 	constructor(
 		app: App,
 		plugin: CreateOrOpenFilePlugin,
-		updateSettingsCallback: (newSettings: CreateOrOpenFilePluginSettings) => Promise<void>,
+		saveSettingsAndRegisterCommands: (newSettings: CreateOrOpenFilePluginSettings) => Promise<void>,
 	) {
 		super(app, plugin)
-		this.updatePluginSettingsCallback = updateSettingsCallback
+		this.saveSettingsAndRegisterCommands = saveSettingsAndRegisterCommands
 	}
 
 	display(): void {
@@ -32,7 +32,7 @@ export class SettingsTab extends PluginSettingTab {
 		this.root.render(
 			React.createElement(SettingsLayout, {
 				settings: currentSettings,
-				updatePluginSettings: this.updatePluginSettingsCallback,
+				saveSettingsAndRegisterCommands: this.saveSettingsAndRegisterCommands,
 				settingsEvents: plugin.settingsEvents,
 			}),
 		)

@@ -39,7 +39,7 @@ describe('SettingsComponent', () => {
 		render(
 			<SettingsLayout
 				settings={mockSettings}
-				updatePluginSettings={mockUpdatePluginSettings}
+				saveSettingsAndRegisterCommands={mockUpdatePluginSettings}
 				settingsEvents={mockSettingsEvents}
 			/>,
 		)

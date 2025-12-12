@@ -6,19 +6,19 @@ import { validateSettings } from '../validation/validateSettings'
 
 interface UseSettingsProps {
 	initialSettings: CreateOrOpenFilePluginSettings
-	onSettingsChange: (newSettings: CreateOrOpenFilePluginSettings) => Promise<void>
+	saveSettingsAndRegisterCommands: (newSettings: CreateOrOpenFilePluginSettings) => Promise<void>
 	settingsEvents: Events
 }
 
 interface UseSettingsResult {
 	settings: CreateOrOpenFilePluginSettings
-	updateSettings: (newSettings: CreateOrOpenFilePluginSettings) => Promise<void>
+	updateSettingsAndTriggerValidation: (newSettings: CreateOrOpenFilePluginSettings) => Promise<void>
 	validationResult: ValidationResult
 }
 
 export function useSettings({
 	initialSettings,
-	onSettingsChange,
+	saveSettingsAndRegisterCommands,
 	settingsEvents,
 }: UseSettingsProps): UseSettingsResult {
 	const [settings, setSettings] = useState<CreateOrOpenFilePluginSettings>(initialSettings)
@@ -51,12 +51,12 @@ export function useSettings({
 
 	const updateSettings = async (newSettings: CreateOrOpenFilePluginSettings) => {
 		setSettings(newSettings)
-		await onSettingsChange(newSettings)
+		await saveSettingsAndRegisterCommands(newSettings)
 	}
 
 	return {
 		settings,
-		updateSettings,
+		updateSettingsAndTriggerValidation: updateSettings,
 		validationResult,
 	}
 }

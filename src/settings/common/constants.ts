@@ -1,4 +1,4 @@
-import { CreateOrOpenFilePluginSettings } from '../../types'
+import { CommandConfig, CreateOrOpenFilePluginSettings } from '../../types'
 
 export const DEFAULT_SETTINGS: CreateOrOpenFilePluginSettings = {
 	commandConfigs: [
@@ -11,4 +11,13 @@ export const DEFAULT_SETTINGS: CreateOrOpenFilePluginSettings = {
 			usePreviousNoteAsTemplate: false,
 		},
 	],
+}
+
+export const EMPTY_COMMAND_CONFIG: CommandConfig = {
+	commandName: '',
+	templateFilePath: '',
+	destinationFolderPattern: '',
+	fileNamePattern: '',
+	timeShift: '',
+	usePreviousNoteAsTemplate: false,
 }

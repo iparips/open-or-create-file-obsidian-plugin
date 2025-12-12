@@ -28,7 +28,7 @@ describe('useSettings', () => {
 		const { result } = renderHook(() =>
 			useSettings({
 				initialSettings,
-				onSettingsChange: mockOnSettingsChange,
+				saveSettingsAndRegisterCommands: mockOnSettingsChange,
 				settingsEvents: mockSettingsEvents,
 			}),
 		)
@@ -40,7 +40,7 @@ describe('useSettings', () => {
 		const { result } = renderHook(() =>
 			useSettings({
 				initialSettings,
-				onSettingsChange: mockOnSettingsChange,
+				saveSettingsAndRegisterCommands: mockOnSettingsChange,
 				settingsEvents: mockSettingsEvents,
 			}),
 		)
@@ -53,7 +53,7 @@ describe('useSettings', () => {
 			const { result } = renderHook(() =>
 				useSettings({
 					initialSettings,
-					onSettingsChange: mockOnSettingsChange,
+					saveSettingsAndRegisterCommands: mockOnSettingsChange,
 					settingsEvents: mockSettingsEvents,
 				}),
 			)
@@ -63,7 +63,7 @@ describe('useSettings', () => {
 				.build()
 
 			await act(async () => {
-				await result.current.updateSettings(newSettings)
+				await result.current.updateSettingsAndTriggerValidation(newSettings)
 			})
 
 			expect(result.current.settings).toEqual(newSettings)
@@ -74,7 +74,7 @@ describe('useSettings', () => {
 			const { result } = renderHook(() =>
 				useSettings({
 					initialSettings,
-					onSettingsChange: mockOnSettingsChange,
+					saveSettingsAndRegisterCommands: mockOnSettingsChange,
 					settingsEvents: mockSettingsEvents,
 				}),
 			)
@@ -91,7 +91,7 @@ describe('useSettings', () => {
 				.build()
 
 			await act(async () => {
-				await result.current.updateSettings(invalidSettings)
+				await result.current.updateSettingsAndTriggerValidation(invalidSettings)
 			})
 
 			expect(result.current.validationResult.isValid).toBe(false)
@@ -103,7 +103,7 @@ describe('useSettings', () => {
 			renderHook(() =>
 				useSettings({
 					initialSettings,
-					onSettingsChange: mockOnSettingsChange,
+					saveSettingsAndRegisterCommands: mockOnSettingsChange,
 					settingsEvents: mockSettingsEvents,
 				}),
 			)
@@ -115,7 +115,7 @@ describe('useSettings', () => {
 			const { unmount } = renderHook(() =>
 				useSettings({
 					initialSettings,
-					onSettingsChange: mockOnSettingsChange,
+					saveSettingsAndRegisterCommands: mockOnSettingsChange,
 					settingsEvents: mockSettingsEvents,
 				}),
 			)
@@ -131,7 +131,7 @@ describe('useSettings', () => {
 			const { result } = renderHook(() =>
 				useSettings({
 					initialSettings,
-					onSettingsChange: mockOnSettingsChange,
+					saveSettingsAndRegisterCommands: mockOnSettingsChange,
 					settingsEvents: mockSettingsEvents,
 				}),
 			)
@@ -159,7 +159,7 @@ describe('useSettings', () => {
 			const { result } = renderHook(() =>
 				useSettings({
 					initialSettings,
-					onSettingsChange: mockOnSettingsChange,
+					saveSettingsAndRegisterCommands: mockOnSettingsChange,
 					settingsEvents: mockSettingsEvents,
 				}),
 			)

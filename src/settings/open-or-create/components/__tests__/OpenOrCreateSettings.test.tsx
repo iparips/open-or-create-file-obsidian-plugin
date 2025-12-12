@@ -58,7 +58,7 @@ describe('OpenOrCreateSettings', () => {
 		render(
 			<OpenOrCreateSettings
 				settings={mockSettings}
-				updateSettings={mockUpdateSettings}
+				updateSettingsAndTriggerValidation={mockUpdateSettings}
 				validationResult={mockValidationResult}
 			/>,
 		)
@@ -71,7 +71,7 @@ describe('OpenOrCreateSettings', () => {
 		render(
 			<OpenOrCreateSettings
 				settings={mockSettings}
-				updateSettings={mockUpdateSettings}
+				updateSettingsAndTriggerValidation={mockUpdateSettings}
 				validationResult={mockValidationResult}
 			/>,
 		)
@@ -86,7 +86,7 @@ describe('OpenOrCreateSettings', () => {
 			render(
 				<OpenOrCreateSettings
 					settings={mockSettings}
-					updateSettings={mockUpdateSettings}
+					updateSettingsAndTriggerValidation={mockUpdateSettings}
 					validationResult={mockValidationResult}
 				/>,
 			)
@@ -123,7 +123,7 @@ describe('OpenOrCreateSettings', () => {
 			render(
 				<OpenOrCreateSettings
 					settings={mockSettings}
-					updateSettings={mockUpdateSettings}
+					updateSettingsAndTriggerValidation={mockUpdateSettings}
 					validationResult={mockValidationResult}
 				/>,
 			)
@@ -159,7 +159,7 @@ describe('OpenOrCreateSettings', () => {
 			render(
 				<OpenOrCreateSettings
 					settings={settingsWithMultiple}
-					updateSettings={mockUpdateSettings}
+					updateSettingsAndTriggerValidation={mockUpdateSettings}
 					validationResult={mockValidationResult}
 				/>,
 			)

@@ -26,7 +26,9 @@ export default class CreateOrOpenFilePlugin extends Plugin {
 		this.registerCommands(this.settings.commandConfigs)
 
 		// bind this so that "this" reference inside update updateSettings points to MyPlugin.
-		this.addSettingTab(new SettingsTab(this.app, this, this.updateSettings.bind(this)))
+		this.addSettingTab(
+			new SettingsTab(this.app, this, this.saveSettingsAndRegisterCommands.bind(this)),
+		)
 	}
 
 	onunload() {
@@ -64,7 +66,9 @@ export default class CreateOrOpenFilePlugin extends Plugin {
 		})
 	}
 
-	async updateSettings(newSettings: CreateOrOpenFilePluginSettings): Promise<void> {
+	async saveSettingsAndRegisterCommands(
+		newSettings: CreateOrOpenFilePluginSettings,
+	): Promise<void> {
 		this.settings = newSettings
 		await this.saveData(newSettings) // write to data.json
 		this.registerCommands(newSettings.commandConfigs)
