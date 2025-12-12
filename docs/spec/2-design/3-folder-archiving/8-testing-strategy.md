@@ -3,11 +3,13 @@
 ## Unit Tests
 
 ### 1. folderMatcher.test.ts
+
 - Test glob pattern to regex conversion
 - Test pattern matching with various folder paths
 - Test wildcards: `*`, `**`, `?`
 
 ### 2. destinationPathBuilder.test.ts
+
 - Test year placeholder replacement
 - Test quarter calculation (Q1-Q4)
 - Test month format variations (MM, MMM, MMMM)
@@ -15,12 +17,14 @@
 - Test folder name appending
 
 ### 3. folderScanner.test.ts
+
 - Test age calculation
 - Test folder filtering by pattern
 - Test with empty vault
 - Test with nested folders
 
 ### 4. validateArchiveConfig.test.ts
+
 - Test validation rules for all fields
 - Test placeholder validation
 - Test age threshold validation
@@ -29,6 +33,7 @@
 ## Integration Tests
 
 ### 1. archiveCommandCallback.test.ts
+
 - Test full archive flow with mocked ObsidianAdapter
 - Test multiple configurations
 - Test error handling
@@ -51,6 +56,7 @@
 ## Performance Testing
 
 For large vaults:
+
 - [ ] Test with 1000+ folders
 - [ ] Verify reasonable execution time
 - [ ] Check memory usage

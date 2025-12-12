@@ -6,23 +6,23 @@ In `src/main.ts`:
 
 ```typescript
 export default class CreateOrOpenFilePlugin extends Plugin {
-  async onload() {
-    // Load settings
-    this.settings = await configureDefaultsAndValidateSettings(this)
+	async onload() {
+		// Load settings
+		this.settings = await configureDefaultsAndValidateSettings(this)
 
-    // Register open-or-create commands
-    this.registerCommands(this.settings.commandConfigs)
+		// Register open-or-create commands
+		this.registerCommands(this.settings.commandConfigs)
 
-    // Register archive command
-    this.addCommand({
-      id: 'archive-folders',
-      name: 'Archive folders',
-      callback: () => archiveCommandCallback(this, new ObsidianAdapter(this.app))
-    })
+		// Register archive command
+		this.addCommand({
+			id: 'archive-folders',
+			name: 'Archive folders',
+			callback: () => archiveCommandCallback(this, new ObsidianAdapter(this.app)),
+		})
 
-    // Register settings tab
-    this.addSettingTab(new CreateOrOpenFileSettingsTab(this.app, this))
-  }
+		// Register settings tab
+		this.addSettingTab(new CreateOrOpenFileSettingsTab(this.app, this))
+	}
 }
 ```
 
@@ -31,11 +31,8 @@ export default class CreateOrOpenFilePlugin extends Plugin {
 The archive command uses the `ArchiveCommandExecutor` class:
 
 ```typescript
-function archiveCommandCallback(
-  plugin: CreateOrOpenFilePlugin,
-  adapter: ObsidianAdapter
-): void {
-  ArchiveCommandExecutor.execute(plugin, adapter)
+function archiveCommandCallback(plugin: CreateOrOpenFilePlugin, adapter: ObsidianAdapter): void {
+	ArchiveCommandExecutor.execute(plugin, adapter)
 }
 ```
 

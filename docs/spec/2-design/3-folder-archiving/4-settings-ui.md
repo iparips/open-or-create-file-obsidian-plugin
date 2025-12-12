@@ -192,6 +192,7 @@ File: `src/settings/components/ArchiveConfigCard.tsx` (new file)
 Component displaying a single archive configuration as a card with input fields.
 
 Fields:
+
 - Name (text input)
 - Source Pattern (text input with glob help text)
 - Destination Pattern (text input with placeholder help text)
@@ -199,6 +200,7 @@ Fields:
 - Delete button
 
 Validation:
+
 - Name: Required, non-empty
 - Source Pattern: Required, valid glob pattern
 - Destination Pattern: Required, contains valid placeholders
@@ -261,36 +263,36 @@ The settings tab remains simple - it just renders a single React component that 
 
 ```typescript
 export class CreateOrOpenFileSettingsTab extends PluginSettingTab {
-  updatePluginSettingsCallback: (settings: CreateOrOpenFilePluginSettings) => Promise<void>
-  private root: Root | null = null
+	updatePluginSettingsCallback: (settings: CreateOrOpenFilePluginSettings) => Promise<void>
+	private root: Root | null = null
 
-  display(): void {
-    const { containerEl } = this
-    containerEl.empty()
+	display(): void {
+		const { containerEl } = this
+		containerEl.empty()
 
-    const plugin = this.plugin as CreateOrOpenFilePlugin
-    const currentSettings = plugin.settings
+		const plugin = this.plugin as CreateOrOpenFilePlugin
+		const currentSettings = plugin.settings
 
-    // Render single React component that handles tabs internally
-    this.root = createRoot(containerEl)
-    this.root.render(
-      React.createElement(SettingsComponent, {
-        settings: currentSettings,
-        updatePluginSettings: this.updatePluginSettingsCallback,
-        settingsEvents: plugin.settingsEvents
-      })
-    )
-  }
+		// Render single React component that handles tabs internally
+		this.root = createRoot(containerEl)
+		this.root.render(
+			React.createElement(SettingsComponent, {
+				settings: currentSettings,
+				updatePluginSettings: this.updatePluginSettingsCallback,
+				settingsEvents: plugin.settingsEvents,
+			}),
+		)
+	}
 
-  hide(): void {
-    const validationResult = validateSettings((this.plugin as CreateOrOpenFilePlugin).settings)
-    if (!validationResult.isValid) {
-      new Notice('Please fill out the required settings', 10000)
-    }
-    if (this.root) {
-      this.root.unmount()
-      this.root = null
-    }
-  }
+	hide(): void {
+		const validationResult = validateSettings((this.plugin as CreateOrOpenFilePlugin).settings)
+		if (!validationResult.isValid) {
+			new Notice('Please fill out the required settings', 10000)
+		}
+		if (this.root) {
+			this.root.unmount()
+			this.root = null
+		}
+	}
 }
 ```

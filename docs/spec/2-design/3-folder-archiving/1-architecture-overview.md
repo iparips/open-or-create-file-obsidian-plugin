@@ -1,6 +1,7 @@
 # Architecture Overview
 
 The folder archiving feature will be implemented as a separate module alongside the existing open-or-create functionality. It will have its own:
+
 - Command execution logic
 - Settings UI
 - Configuration types
@@ -40,6 +41,7 @@ src/
 ## Design Principles
 
 All components follow maintainability rules:
+
 - Static class methods (not standalone functions)
 - Max 15 lines per method
 - Single level of abstraction

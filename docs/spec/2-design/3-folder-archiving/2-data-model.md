@@ -5,46 +5,42 @@
 ```typescript
 // Archive configuration type
 interface ArchiveConfig {
-  id: string                        // Unique identifier for this config
-  name: string                      // User-friendly name
-  sourcePattern: string             // Glob pattern (e.g., "Journal/Week-*")
-  destinationPattern: string        // Destination with placeholders (e.g., "Archive/{year}/Q{quarter}")
-  ageThresholdDays: number          // Minimum age in days (e.g., 90)
+	id: string // Unique identifier for this config
+	name: string // User-friendly name
+	sourcePattern: string // Glob pattern (e.g., "Journal/Week-*")
+	destinationPattern: string // Destination with placeholders (e.g., "Archive/{year}/Q{quarter}")
+	ageThresholdDays: number // Minimum age in days (e.g., 90)
 }
 
 // Plugin settings (extended)
 interface CreateOrOpenFilePluginSettings {
-  commandConfigs: CommandConfig[]   // Existing open-or-create configs
-  archiveConfigs: ArchiveConfig[]   // New archive configs
+	commandConfigs: CommandConfig[] // Existing open-or-create configs
+	archiveConfigs: ArchiveConfig[] // New archive configs
 }
 
 // Internal types for archive processing
 interface FolderMatch {
-  path: string                      // Full folder path
-  modifiedTime: number              // Last modified timestamp
-  ageInDays: number                 // Calculated age
+	path: string // Full folder path
+	modifiedTime: number // Last modified timestamp
+	ageInDays: number // Calculated age
 }
 
 interface ArchiveOperation {
-  sourcePath: string                // Current folder path
-  destinationPath: string           // Target archive path
-  config: ArchiveConfig             // Config that matched this folder
+	sourcePath: string // Current folder path
+	destinationPath: string // Target archive path
+	config: ArchiveConfig // Config that matched this folder
 }
 
 // Outcome types for error handling (following maintainability rules)
 interface ArchiveSummary {
-  movedCount: number
-  errorCount: number
-  errors: string[]
+	movedCount: number
+	errorCount: number
+	errors: string[]
 }
 
-type ArchiveOutcome =
-  | { success: true; data: ArchiveSummary }
-  | { success: false; error: string }
+type ArchiveOutcome = { success: true; data: ArchiveSummary } | { success: false; error: string }
 
-type MoveOutcome =
-  | { success: true }
-  | { success: false; error: string }
+type MoveOutcome = { success: true } | { success: false; error: string }
 ```
 
 ## Date Placeholders
@@ -67,5 +63,6 @@ Supported glob pattern syntax for source patterns:
 - `?` - Matches single character except /
 
 Examples:
+
 - `Journal/Week-*` - Matches all folders starting with "Week-" in Journal/
 - `Projects/**/Archive` - Matches Archive folders at any depth under Projects/
