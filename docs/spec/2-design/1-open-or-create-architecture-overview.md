@@ -144,6 +144,7 @@ Design Pattern: Adapter pattern for dependency injection and testing
 ### 4. Settings Layer (`src/settings/`)
 
 The settings layer is organized into three directories:
+
 - `common/`: Shared settings infrastructure (validation, hooks, UI components)
 - `open-or-create/`: Open-or-create specific settings components
 - `archive/`: Archive feature settings (future)
@@ -170,11 +171,13 @@ Architecture: React with custom hook for state management
 Purpose: Main settings UI entrypoint that wires together child components
 
 Key Features:
+
 - Uses `useSettings` hook for state management
 - Delegates to feature-specific components (`OpenOrCreateSettings`)
 - Handles settings import via `ActionsHeader`
 
 Child Components:
+
 - `ActionsHeader`: Import/Export buttons (shared)
 - `OpenOrCreateSettings`: Open-or-create commands panel
 
@@ -185,17 +188,20 @@ Hook: `useSettings()`
 Purpose: Centralized settings state management
 
 Responsibilities:
+
 - Manages local settings state
 - Handles validation with real-time updates
 - Listens to `settings-reloaded` event for external changes (Obsidian Sync)
 - Provides `updateSettings()` function that updates state and persists to disk
 
 Returns:
+
 - `settings`: Current settings state
 - `updateSettings`: Function to update and save settings
 - `validationResult`: Current validation state
 
 Benefits:
+
 - Cleaner than render props pattern
 - State logic reusable across components
 - Easier to test in isolation
@@ -207,11 +213,13 @@ Component: `OpenOrCreateSettings`
 Purpose: UI for managing open-or-create commands
 
 Key Features:
+
 - Add/update/delete command operations
 - Real-time validation feedback via `ValidationSummary`
 - Individual command cards via `CommandCard`
 
 Child Components:
+
 - `CommandCard`: Individual command configuration UI with validation errors
 - Uses shared components: `SettingInput`, `SettingToggle`
 
@@ -394,43 +402,51 @@ Validation logic separated from UI components:
 Tests organized by responsibility, colocated with source code in `__tests__/` directories:
 
 **Command layer:**
+
 - `command/open-or-create/__tests__/`: Path building, time shift parsing, candidate finding
 
 **Notes layer:**
+
 - `notes/__tests__/`: Note creation and Obsidian adapter
 
 **Settings layer:**
+
 - `settings/common/__tests__/`: Settings initialization, validation rules
 - `settings/common/hooks/__tests__/`: useSettings hook (state management, event handling)
-- `settings/common/components/__tests__/`: 
-  - `SettingsComponent.test.tsx`: Component wiring smoke test
+- `settings/common/components/__tests__/`:
+  - `SettingsLayout.test.tsx`: Component wiring smoke test
   - `ActionsHeader.test.tsx`: Import/export functionality
-- `settings/open-or-create/components/__tests__/`: 
+- `settings/open-or-create/components/__tests__/`:
   - `OpenOrCreateSettings.test.tsx`: Add/update/delete command operations
 
 ### Test Strategy
 
 **Component tests** verify:
+
 - User interactions (button clicks, input changes)
 - Correct props passed to child components
 - Callbacks invoked with expected data
 
 **Hook tests** verify:
+
 - State management logic
 - Event subscription/cleanup
 - Validation updates
 
 **Unit tests** verify:
+
 - Business logic (path building, validation)
 - Edge cases and error handling
 
 ### Builder Pattern
 
 Test data created using builder pattern (see `src/test-support/builders.ts`):
+
 - Builders used for **setup** (arrange phase)
 - Plain objects used for **assertions** (for clarity)
 
 Example:
+
 ```typescript
 // Setup: use builder
 const settings = aSettings()

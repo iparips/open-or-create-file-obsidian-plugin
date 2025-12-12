@@ -3,7 +3,7 @@ import React from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 
 import type CreateOrOpenFilePlugin from '../../main'
-import { SettingsComponent } from './components/SettingsComponent'
+import { SettingsLayout } from './components/SettingsLayout'
 import { CreateOrOpenFilePluginSettings } from '../../types'
 import { validateSettings } from './validation/validateSettings'
 
@@ -30,7 +30,7 @@ export class SettingsTab extends PluginSettingTab {
 
 		this.root = createRoot(containerEl)
 		this.root.render(
-			React.createElement(SettingsComponent, {
+			React.createElement(SettingsLayout, {
 				settings: currentSettings,
 				updatePluginSettings: this.updatePluginSettingsCallback,
 				settingsEvents: plugin.settingsEvents,

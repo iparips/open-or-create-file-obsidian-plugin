@@ -12,7 +12,7 @@ interface SettingsComponentProps {
 	settingsEvents: Events
 }
 
-export const SettingsComponent: React.FC<SettingsComponentProps> = ({
+export const SettingsLayout: React.FC<SettingsComponentProps> = ({
 	settings: initialSettings,
 	updatePluginSettings,
 	settingsEvents,

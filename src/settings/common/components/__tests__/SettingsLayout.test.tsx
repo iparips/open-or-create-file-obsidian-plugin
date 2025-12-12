@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import type { EventRef, Events } from 'obsidian'
-import { SettingsComponent } from '../SettingsComponent'
+import { SettingsLayout } from '../SettingsLayout'
 import type { CreateOrOpenFilePluginSettings } from '../../../../types'
 import { aCommand, aSettings } from '../../../../test-support/builders'
 
@@ -37,7 +37,7 @@ describe('SettingsComponent', () => {
 			.build()
 
 		render(
-			<SettingsComponent
+			<SettingsLayout
 				settings={mockSettings}
 				updatePluginSettings={mockUpdatePluginSettings}
 				settingsEvents={mockSettingsEvents}
