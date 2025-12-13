@@ -1,6 +1,6 @@
 # Folder Archiving Implementation Tasks
 
-This task list implements the folder archiving feature as specified in @docs/spec/1-requirements/3-folder-archiving.md and designed in @docs/spec/2-design/3-folder-archiving/.
+This task list implements the folder archiving feature as specified in @docs/spec/2-requirements/3-folder-archiving.md and designed in @docs/spec/3-design/3-folder-archiving/.
 
 ## Phase 0: Code Refactoring (Pre-requisite)
 
