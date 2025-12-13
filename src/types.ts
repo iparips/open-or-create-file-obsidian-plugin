@@ -31,4 +31,7 @@ export interface OpenOrCreateCommandConfig {
 
 export interface CreateOrOpenFilePluginSettingsJSON {
 	openOrCreateCommandConfigs: OpenOrCreateCommandConfig[]
+	// Backwards compatibility: old plugin versions look for this field
+	// TODO: Remove after 2-3 releases (added 2024-12-13)
+	commandConfigs?: OpenOrCreateCommandConfig[]
 }

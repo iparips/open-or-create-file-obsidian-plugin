@@ -13,10 +13,13 @@ function migrateAndApplyDefaults(data: unknown): CreateOrOpenFilePluginSettingsJ
 	let settingsJSON = (data ||
 		CreateOrOpenFilePluginSettings.DEFAULT.toJSON()) as CreateOrOpenFilePluginSettingsJSON
 
-	// Migrate old field name (backward compatibility)
+	// Backwards compatibility: prefer commandConfigs if present (old plugin might have updated it)
+	// This handles the case where:
+	// 1. New plugin writes both fields
+	// 2. Old plugin reads commandConfigs, edits, writes only commandConfigs
+	// 3. New plugin needs to use the updated commandConfigs, not stale openOrCreateCommandConfigs
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	if ((settingsJSON as any).commandConfigs && !settingsJSON.openOrCreateCommandConfigs) {
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	if ((settingsJSON as any).commandConfigs) {
 		settingsJSON = {
 			...settingsJSON,
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any

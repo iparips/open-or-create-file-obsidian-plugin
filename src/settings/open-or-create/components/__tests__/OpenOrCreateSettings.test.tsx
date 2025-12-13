@@ -97,26 +97,25 @@ describe('OpenOrCreateSettings', () => {
 
 			const calls = mockUpdateSettings.mock.calls
 			expect(calls.length).toBe(1)
-			expect(calls[0][0].toJSON()).toEqual({
-				openOrCreateCommandConfigs: [
-					{
-						commandName: '',
-						templateFilePath: '',
-						destinationFolderPattern: '',
-						fileNamePattern: '',
-						timeShift: '',
-						usePreviousNoteAsTemplate: false,
-					},
-					{
-						commandName: 'Test Command 1',
-						templateFilePath: 'template.md',
-						destinationFolderPattern: 'folder',
-						fileNamePattern: 'file.md',
-						timeShift: '',
-						usePreviousNoteAsTemplate: false,
-					},
-				],
-			})
+			// Verify openOrCreateCommandConfigs (commandConfigs is for backward compatibility)
+			expect(calls[0][0].toJSON().openOrCreateCommandConfigs).toEqual([
+				{
+					commandName: '',
+					templateFilePath: '',
+					destinationFolderPattern: '',
+					fileNamePattern: '',
+					timeShift: '',
+					usePreviousNoteAsTemplate: false,
+				},
+				{
+					commandName: 'Test Command 1',
+					templateFilePath: 'template.md',
+					destinationFolderPattern: 'folder',
+					fileNamePattern: 'file.md',
+					timeShift: '',
+					usePreviousNoteAsTemplate: false,
+				},
+			])
 		})
 	})
 
@@ -137,18 +136,17 @@ describe('OpenOrCreateSettings', () => {
 
 			const calls = mockUpdateSettings.mock.calls
 			expect(calls.length).toBe(1)
-			expect(calls[0][0].toJSON()).toEqual({
-				openOrCreateCommandConfigs: [
-					{
-						commandName: 'Test Command 1X',
-						templateFilePath: 'template.md',
-						destinationFolderPattern: 'folder',
-						fileNamePattern: 'file.md',
-						timeShift: '',
-						usePreviousNoteAsTemplate: false,
-					},
-				],
-			})
+			// Verify openOrCreateCommandConfigs (commandConfigs is for backward compatibility)
+			expect(calls[0][0].toJSON().openOrCreateCommandConfigs).toEqual([
+				{
+					commandName: 'Test Command 1X',
+					templateFilePath: 'template.md',
+					destinationFolderPattern: 'folder',
+					fileNamePattern: 'file.md',
+					timeShift: '',
+					usePreviousNoteAsTemplate: false,
+				},
+			])
 		})
 	})
 
@@ -174,18 +172,17 @@ describe('OpenOrCreateSettings', () => {
 
 			const calls = mockUpdateSettings.mock.calls
 			expect(calls.length).toBe(1)
-			expect(calls[0][0].toJSON()).toEqual({
-				openOrCreateCommandConfigs: [
-					{
-						commandName: 'Command 2',
-						templateFilePath: 'template.md',
-						destinationFolderPattern: 'folder',
-						fileNamePattern: 'file2.md',
-						timeShift: '',
-						usePreviousNoteAsTemplate: false,
-					},
-				],
-			})
+			// Verify openOrCreateCommandConfigs (commandConfigs is for backward compatibility)
+			expect(calls[0][0].toJSON().openOrCreateCommandConfigs).toEqual([
+				{
+					commandName: 'Command 2',
+					templateFilePath: 'template.md',
+					destinationFolderPattern: 'folder',
+					fileNamePattern: 'file2.md',
+					timeShift: '',
+					usePreviousNoteAsTemplate: false,
+				},
+			])
 		})
 	})
 })

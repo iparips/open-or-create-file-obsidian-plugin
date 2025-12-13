@@ -40,8 +40,10 @@ describe('configureDefaultsAndValidateSettings', () => {
 			// Act
 			const result = await parseSettings(loadData)
 
-			// Assert
-			expect(result.toJSON()).toEqual(validSettingsJSON)
+			// Assert - verify openOrCreateCommandConfigs matches (commandConfigs is for backward compatibility)
+			expect(result.toJSON().openOrCreateCommandConfigs).toEqual(
+				validSettingsJSON.openOrCreateCommandConfigs,
+			)
 		})
 
 		it('defaults usePreviousNoteAsTemplate to false when it is missing', async () => {
@@ -87,8 +89,10 @@ describe('configureDefaultsAndValidateSettings', () => {
 			// Act
 			const result = await parseSettings(loadData)
 
-			// Assert
-			expect(result.toJSON()).toEqual(DEFAULT_SETTINGS_JSON)
+			// Assert - verify openOrCreateCommandConfigs matches (commandConfigs is for backward compatibility)
+			expect(result.toJSON().openOrCreateCommandConfigs).toEqual(
+				DEFAULT_SETTINGS_JSON.openOrCreateCommandConfigs,
+			)
 		})
 
 		it('returns default settings and logs an error when settings are invalid', async () => {
@@ -122,8 +126,10 @@ describe('configureDefaultsAndValidateSettings', () => {
 			// Act
 			const result = await parseSettings(loadData)
 
-			// Assert
-			expect(result.toJSON()).toEqual(DEFAULT_SETTINGS_JSON)
+			// Assert - verify openOrCreateCommandConfigs matches (commandConfigs is for backward compatibility)
+			expect(result.toJSON().openOrCreateCommandConfigs).toEqual(
+				DEFAULT_SETTINGS_JSON.openOrCreateCommandConfigs,
+			)
 			expect(consoleErrorSpy).toHaveBeenCalledWith('[Settings] Invalid settings:', [
 				'Command 1 - Command name: Required',
 			])
@@ -143,8 +149,10 @@ describe('configureDefaultsAndValidateSettings', () => {
 			// Act
 			const result = await parseSettings(loadData)
 
-			// Assert
-			expect(result.toJSON()).toEqual(DEFAULT_SETTINGS_JSON)
+			// Assert - verify openOrCreateCommandConfigs matches (commandConfigs is for backward compatibility)
+			expect(result.toJSON().openOrCreateCommandConfigs).toEqual(
+				DEFAULT_SETTINGS_JSON.openOrCreateCommandConfigs,
+			)
 			expect(consoleErrorSpy).toHaveBeenCalledWith('[Settings] Error loading settings:', error)
 			expect(Notice).toHaveBeenCalledWith('Failed to load settings. Using defaults.')
 

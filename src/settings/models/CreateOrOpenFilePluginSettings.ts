@@ -34,8 +34,12 @@ export class CreateOrOpenFilePluginSettings {
 	}
 
 	toJSON(): CreateOrOpenFilePluginSettingsJSON {
+		const configs = this.openOrCreateCommandConfiguration.toJSON()
 		return {
-			openOrCreateCommandConfigs: this.openOrCreateCommandConfiguration.toJSON(),
+			openOrCreateCommandConfigs: configs,
+			// Backwards compatibility: write old format too for users with older plugin versions
+			// TODO: Remove commandConfigs field after 2-3 releases (added 2024-12-13)
+			commandConfigs: configs,
 		}
 	}
 
