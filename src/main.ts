@@ -1,9 +1,10 @@
 import { debounce, Events, Notice, Plugin } from 'obsidian'
-import { CreateOrOpenFileSettingsTab } from './settings/CreateOrOpenFileSettingsTab'
-import { createOrOpenFileCommandCallback } from './command/commandCallback'
+import { SettingsTab } from './settings/common/SettingsTab'
+import { createOrOpenFileCommandCallback } from './command/open-or-create/commandCallback'
 import { ObsidianAdapter } from './notes/obsidianAdapter'
-import { CommandConfig, CreateOrOpenFilePluginSettings } from './types'
-import { configureDefaultsAndValidateSettings } from './settings/configureDefaultsAndValidateSettings'
+import { OpenOrCreateCommandConfig } from './types'
+import { CreateOrOpenFilePluginSettings } from './settings/models/CreateOrOpenFilePluginSettings'
+import { parseSettings } from './settings/common/parseSettings'
 
 export default class CreateOrOpenFilePlugin extends Plugin {
 	settings!: CreateOrOpenFilePluginSettings
@@ -12,8 +13,8 @@ export default class CreateOrOpenFilePlugin extends Plugin {
 
 	private debouncedReload = debounce(
 		async () => {
-			this.settings = await configureDefaultsAndValidateSettings(() => this.loadData())
-			this.registerCommands(this.settings.commandConfigs)
+			this.settings = await parseSettings(() => this.loadData())
+			this.registerCommands(this.settings.getOpenOrCreateCommandConfigs())
 			this.settingsEvents.trigger('settings-reloaded', this.settings)
 			new Notice('Settings updated from external.')
 		},
@@ -22,12 +23,12 @@ export default class CreateOrOpenFilePlugin extends Plugin {
 	)
 
 	async onload() {
-		this.settings = await configureDefaultsAndValidateSettings(() => this.loadData())
-		this.registerCommands(this.settings.commandConfigs)
+		this.settings = await parseSettings(() => this.loadData())
+		this.registerCommands(this.settings.getOpenOrCreateCommandConfigs())
 
 		// bind this so that "this" reference inside update updateSettings points to MyPlugin.
 		this.addSettingTab(
-			new CreateOrOpenFileSettingsTab(this.app, this, this.updateSettings.bind(this)),
+			new SettingsTab(this.app, this, this.saveSettingsAndRegisterCommands.bind(this)),
 		)
 	}
 
@@ -40,13 +41,13 @@ export default class CreateOrOpenFilePlugin extends Plugin {
 		this.debouncedReload()
 	}
 
-	private registerCommands(commandConfigs: CommandConfig[]): void {
+	private registerCommands(commandConfigs: OpenOrCreateCommandConfig[]): void {
 		// Only unregister if we've previously registered commands
 		if (this.hasRegisteredCommands) {
 			this.unregisterCommands()
 		}
 
-		commandConfigs.forEach((config: CommandConfig, index: number) => {
+		commandConfigs.forEach((config: OpenOrCreateCommandConfig, index: number) => {
 			this.addCommand({
 				id: `${index}`,
 				name: config.commandName,
@@ -66,9 +67,11 @@ export default class CreateOrOpenFilePlugin extends Plugin {
 		})
 	}
 
-	async updateSettings(newSettings: CreateOrOpenFilePluginSettings): Promise<void> {
+	async saveSettingsAndRegisterCommands(
+		newSettings: CreateOrOpenFilePluginSettings,
+	): Promise<void> {
 		this.settings = newSettings
-		await this.saveData(newSettings) // write to data.json
-		this.registerCommands(newSettings.commandConfigs)
+		await this.saveData(newSettings.toJSON()) // write to data.json
+		this.registerCommands(newSettings.getOpenOrCreateCommandConfigs())
 	}
 }

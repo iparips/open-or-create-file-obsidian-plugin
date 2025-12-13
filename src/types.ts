@@ -20,7 +20,7 @@ export interface ValidationError {
 }
 
 // Command settings types
-export interface CommandConfig {
+export interface OpenOrCreateCommandConfig {
 	commandName: string
 	templateFilePath?: string
 	destinationFolderPattern: string
@@ -29,6 +29,9 @@ export interface CommandConfig {
 	usePreviousNoteAsTemplate?: boolean
 }
 
-export interface CreateOrOpenFilePluginSettings {
-	commandConfigs: CommandConfig[]
+export interface CreateOrOpenFilePluginSettingsJSON {
+	openOrCreateCommandConfigs: OpenOrCreateCommandConfig[]
+	// Backwards compatibility: old plugin versions look for this field
+	// TODO: Remove after 2-3 releases (added 2024-12-13)
+	commandConfigs?: OpenOrCreateCommandConfig[]
 }

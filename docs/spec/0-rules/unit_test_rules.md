@@ -71,3 +71,49 @@ Then either group those sections using blank lines
 - This ensures type safety and prevents missing methods
 - Mock external dependencies at the module level using `vi.mock()`
 - Use `vi.mocked()` to get typed mock functions for better autocomplete
+
+## Test Data Builders
+
+- Use builder pattern for creating test data in setup (arrange phase)
+- Builders reduce boilerplate and make tests more maintainable when data structures change
+- Never use builders in assertions - use plain objects to make expected values explicit and clear
+- Builders should be placed in `src/test-support/` directory
+
+Example:
+
+```typescript
+describe('MyComponent', () => {
+	let mockSettings: CreateOrOpenFilePluginSettings
+
+	beforeEach(() => {
+		// ✅ Use builder for setup - reduces boilerplate
+		mockSettings = aSettings()
+			.withCommand(aCommand().withCommandName('Test Command 1').build())
+			.build()
+	})
+
+	it('updates settings when command changes', async () => {
+		// Act
+		await updateCommand(0, 'commandName', 'New Name')
+
+		// ✅ Use plain object for assertion - makes expectation explicit
+		expect(mockUpdateSettings).toHaveBeenCalledWith({
+			commandConfigs: [
+				{
+					commandName: 'New Name',
+					templateFilePath: 'template.md',
+					destinationFolderPattern: 'folder',
+					fileNamePattern: 'file.md',
+					timeShift: '',
+					usePreviousNoteAsTemplate: false,
+				},
+			],
+		})
+
+		// ❌ Don't use builder in assertion - hides what you're testing
+		// expect(mockUpdateSettings).toHaveBeenCalledWith(
+		//   aSettings().withCommand(aCommand().withCommandName('New Name').build()).build()
+		// )
+	})
+})
+```
