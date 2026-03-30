@@ -1,6 +1,7 @@
 import { Notice } from 'obsidian'
 import type { OpenOrCreateCommandConfig, CreateOrOpenFilePluginSettingsJSON } from '../../types'
 import { CreateOrOpenFilePluginSettings } from '../models/CreateOrOpenFilePluginSettings'
+import { ValidationErrors } from './validation/ValidationErrors'
 import { validateSettings } from './validation/validateSettings'
 
 const DEFAULT_COMMAND_CONFIG: Partial<OpenOrCreateCommandConfig> = {
@@ -37,6 +38,26 @@ function migrateAndApplyDefaults(data: unknown): CreateOrOpenFilePluginSettingsJ
 	return settingsJSON
 }
 
+function buildSettingsFromValidCommands(
+	errors: ValidationErrors,
+	settingsJSON: CreateOrOpenFilePluginSettingsJSON,
+): CreateOrOpenFilePluginSettings | null {
+	const hasRootError = errors.getAll().some((e) => e.commandIndex === undefined)
+	if (hasRootError) return null
+
+	const invalidIndices = new Set(errors.getAll().map((e) => e.commandIndex as number))
+	const validCommands = settingsJSON.openOrCreateCommandConfigs.filter(
+		(_, i) => !invalidIndices.has(i),
+	)
+
+	if (validCommands.length === 0) return null
+
+	return CreateOrOpenFilePluginSettings.fromJSON({
+		...settingsJSON,
+		openOrCreateCommandConfigs: validCommands,
+	})
+}
+
 export async function parseSettings(
 	loadData: () => Promise<CreateOrOpenFilePluginSettingsJSON>,
 ): Promise<CreateOrOpenFilePluginSettings> {
@@ -48,6 +69,13 @@ export async function parseSettings(
 		return validationResult.fold(
 			(validSettings) => validSettings,
 			(errors) => {
+				const partial = buildSettingsFromValidCommands(errors, settingsJSON)
+				if (partial !== null) {
+					const originalCount = settingsJSON.openOrCreateCommandConfigs.length
+					const removedCount = originalCount - partial.getOpenOrCreateCommandConfigs().length
+					new Notice(`${removedCount} invalid command(s) removed. Valid commands loaded.`)
+					return partial
+				}
 				console.error('[Settings] Invalid settings:', errors.getErrorSummary())
 				new Notice('Settings file is invalid. Using defaults.')
 				return CreateOrOpenFilePluginSettings.DEFAULT

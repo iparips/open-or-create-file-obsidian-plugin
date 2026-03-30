@@ -24,4 +24,5 @@
 - [x] Make settings sync
   - [x] Tidy up the new code
   - [x] Show a notification when settings have been updated
+  - [x] Fix: invalid commands during external reload replace all commands with default (issue 7)
 - [ ] Folder archiving
