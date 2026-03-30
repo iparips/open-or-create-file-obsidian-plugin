@@ -137,6 +137,100 @@ describe('configureDefaultsAndValidateSettings', () => {
 
 			consoleErrorSpy.mockRestore()
 		})
+
+		describe('when some commands are invalid', () => {
+			it('does return only valid commands and show targeted notice', async () => {
+				// Arrange
+				const settingsJSON: CreateOrOpenFilePluginSettingsJSON = {
+					openOrCreateCommandConfigs: [
+						{
+							commandName: 'Valid Command',
+							templateFilePath: '',
+							destinationFolderPattern: 'folder',
+							fileNamePattern: 'file.md',
+							timeShift: '',
+							usePreviousNoteAsTemplate: false,
+						},
+						{
+							commandName: '',
+							templateFilePath: '',
+							destinationFolderPattern: '',
+							fileNamePattern: '',
+							timeShift: '',
+							usePreviousNoteAsTemplate: false,
+						},
+					],
+				}
+				const loadData = vi.fn().mockResolvedValue(settingsJSON)
+				const validationErrors = [
+					{
+						field: 'commandName',
+						fieldDisplayName: 'Command name',
+						message: 'This field is mandatory',
+						commandIndex: 1,
+					},
+				]
+				vi.mocked(validateSettings).mockReturnValue(
+					new ValidationResult(validationErrors, settingsJSON),
+				)
+
+				// Act
+				const result = await parseSettings(loadData)
+
+				// Assert
+				expect(result.getOpenOrCreateCommandConfigs()).toEqual([
+					{
+						commandName: 'Valid Command',
+						templateFilePath: '',
+						destinationFolderPattern: 'folder',
+						fileNamePattern: 'file.md',
+						timeShift: '',
+						usePreviousNoteAsTemplate: false,
+					},
+				])
+				expect(Notice).toHaveBeenCalledWith('1 invalid command(s) removed. Valid commands loaded.')
+			})
+		})
+
+		describe('when settings have a root structural error', () => {
+			it('does return default settings and show "Using defaults" notice', async () => {
+				// Arrange
+				const loadData = vi.fn().mockResolvedValue({
+					openOrCreateCommandConfigs: [
+						{
+							commandName: 'Valid Command',
+							templateFilePath: '',
+							destinationFolderPattern: 'folder',
+							fileNamePattern: 'file.md',
+							timeShift: '',
+							usePreviousNoteAsTemplate: false,
+						},
+					],
+				})
+				const rootError = [
+					{
+						field: 'root',
+						fieldDisplayName: 'Settings',
+						message: 'Invalid data format',
+					},
+				]
+				vi.mocked(validateSettings).mockReturnValue(
+					new ValidationResult(rootError, { openOrCreateCommandConfigs: [] }),
+				)
+				const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
+
+				// Act
+				const result = await parseSettings(loadData)
+
+				// Assert
+				expect(result.toJSON().openOrCreateCommandConfigs).toEqual(
+					DEFAULT_SETTINGS_JSON.openOrCreateCommandConfigs,
+				)
+				expect(Notice).toHaveBeenCalledWith('Settings file is invalid. Using defaults.')
+
+				consoleErrorSpy.mockRestore()
+			})
+		})
 	})
 
 	describe('when read is unsuccessful', () => {
