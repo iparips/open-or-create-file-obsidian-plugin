@@ -21,13 +21,18 @@ rm -rf /path/to/vault/.obsidian/plugins/open-or-create-file-command
 Then create the symlink with the correct name:
 
 ```bash
-ln -s /Users/ilya/Code/open-or-create-file-obsidian-plugin /path/to/vault/.obsidian/plugins/open-or-create-file-command
+ln -sfh /Users/ilya/Code/open-or-create-file-obsidian-plugin /path/to/vault/.obsidian/plugins/open-or-create-file-command
 ```
+
+Flags:
+- `-s` creates a symbolic link
+- `-f` overwrites the destination if it already exists
+- `-h` prevents following an existing symlink at the destination (avoids creating a nested symlink inside the linked directory)
 
 Example:
 
 ```bash
-ln -s /Users/ilya/Code/open-or-create-file-obsidian-plugin /Users/ilya/ObsidianVault23/Personal/.obsidian/plugins/open-or-create-file-command
+ln -sfh /Users/ilya/Code/open-or-create-file-obsidian-plugin /Users/ilya/ObsidianVault23/Personal/.obsidian/plugins/open-or-create-file-command
 ```
 
 Why this matters: The symlink name must match the `id` field in manifest.json. This ensures that:
