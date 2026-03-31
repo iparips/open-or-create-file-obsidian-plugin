@@ -23,6 +23,7 @@
 		"url": "https://github.com/sponsors/iparips"
 	},
 	"devDependencies": {
+		"obsidian": ">=0.12.12",
 		"@testing-library/jest-dom": "^6.6.3",
 		"@testing-library/react": "^16.3.0",
 		"@testing-library/user-event": "^14.6.1",
@@ -50,7 +51,6 @@
 		"@testing-library/dom": "^10.0.0",
 		"date-fns": "^4.1.0",
 		"file-saver": "^2.0.5",
-		"obsidian": "latest",
 		"react": "^19.1.0",
 		"react-dom": "^19.1.0",
 		"use-file-picker": "^2.1.4"
