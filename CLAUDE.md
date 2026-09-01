@@ -1,28 +1,19 @@
-## References for LLMs
+# Open or Create File - Obsidian Plugin
 
-- When generating code, follow rules in @docs/spec/0-rules/maintainability-rules.md
-- When writing tests, follow rules in @docs/spec/0-rules/unit-test-rules.md
-- Read the system architecture overview in @docs/spec/1-architecture/README.md
-- To run tests use `bun run test`
-- Always use Australian English
-- Never use Markdown bold formatting in generated text.
+## Commands
 
-## Specification-Driven Development Workflow
+- Test: `bun run test`
+- Build: `bun run build` (lints, formats, bundles to main.js at repo root)
+- Version bump: `bun run version:patch` (also updates manifest.json and versions.json)
 
-This project uses SDD. When implementing features:
+## Constraints
 
-1. Start with the spec - Read the requirement from @docs/spec/2-requirements/[feature].md
-2. Create a design - Before coding, create @docs/spec/3-design/[feature].md with:
-   - Technical approach
-   - Architecture decisions
-   - Data models
-   - Present this for approval before proceeding
-3. Break down into tasks - Create @docs/spec/4-tasks/[feature].md with:
-   - Numbered checklist of implementation steps
-   - Each task should be small and reviewable
-4. Use TodoWrite - Track progress in-session as you work through tasks
-5. Implement - Follow the design and task breakdown
-6. Test - Ensure tests follow unit test rules
-7. Update @docs/spec/2-requirements/index.md - mark feature complete
+- @codemirror/state and @codemirror/view must stay pinned to the exact versions
+  obsidian lists as peerDependencies. Don't let `bun update --latest` bump them.
+- typescript must stay on 6.x until typescript-eslint supports TS 7.
+- main.js at repo root is a build artefact; never edit it.
 
-Never start coding without a requirement spec. If one doesn't exist, create it first and get approval.
+## Docs
+
+- Architecture overview: docs/spec/1-architecture/README.md
+- Specs live under docs/spec/ (not spec/), numbered 0-rules through 4-tasks.
