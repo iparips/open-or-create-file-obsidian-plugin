@@ -3,7 +3,7 @@
 		"jsx": "react-jsx",
 		"allowJs": true,
 		"target": "ES2020",
-		"moduleResolution": "node",
+		"moduleResolution": "bundler",
 		"esModuleInterop": true,
 		"skipLibCheck": true,
 		"strict": true,
