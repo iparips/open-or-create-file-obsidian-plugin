@@ -18,11 +18,11 @@ jobs:
     timeout-minutes: 10
 
     container:
-      image: node:20-alpine
+      image: node:24-alpine
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install Bun and timezone data
         run: |
