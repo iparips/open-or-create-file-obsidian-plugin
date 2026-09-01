@@ -25,6 +25,7 @@ ln -sfh /Users/ilya/Code/open-or-create-file-obsidian-plugin /path/to/vault/.obs
 ```
 
 Flags:
+
 - `-s` creates a symbolic link
 - `-f` overwrites the destination if it already exists
 - `-h` prevents following an existing symlink at the destination (avoids creating a nested symlink inside the linked directory)
